@@ -18,4 +18,9 @@ router.post(
   valid(schema.deleteFromCart),
   CardControl.deleteFromCart
 );
+router.get(
+  "/getCardInfo",
+  isAuth([roles.admin, roles.super, roles.user]),
+  CardControl.getCardInfo
+);
 export default router;

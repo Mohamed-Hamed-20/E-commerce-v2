@@ -22,7 +22,6 @@ const cardSchema = new Schema(
     ],
     subTotal: {
       type: Number,
-      required: true,
       default: 0,
     },
   },

@@ -2,7 +2,7 @@ import multer from "multer";
 import {
   DeleteObjectCommand,
   GetObjectCommand,
-    PutObjectCommand,
+  PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
@@ -84,7 +84,6 @@ export const GetsingleImg = async ({ ImgName }) => {
   };
   const command = new GetObjectCommand(getObjectParams);
   const url = await getSignedUrl(s3Client, command);
-  console.log(url, command);
   return { url };
 };
 

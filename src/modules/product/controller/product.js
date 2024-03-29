@@ -296,9 +296,8 @@ export const getsingleProduct = asyncHandler(async (req, res, next) => {
     return next(new Error("Product not found", { cause: 404 }));
   }
 
-  // استخدام map بدلاً من forEach لتحديث الـ secure_url لكل صورة
   const updatedImages = await Promise.all(
-    product.Images.map(async (image) => {
+    product?.Images?.map(async (image) => {
       const { url } = await GetsingleImg({ ImgName: image.public_id });
       return { ...image.toObject(), secure_url: url };
     })

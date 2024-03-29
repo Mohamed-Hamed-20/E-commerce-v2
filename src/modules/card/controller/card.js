@@ -1,5 +1,6 @@
 import cardModel from "../../../../DB/models/card.model.js";
 import productModel from "../../../../DB/models/product.model.js";
+import { GetsingleImg } from "../../../utils/aws.s3.js";
 import { asyncHandler } from "../../../utils/errorHandling.js";
 
 export const addToCart = asyncHandler(async (req, res, next) => {
@@ -95,4 +96,39 @@ export const deleteFromCart = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ message: "done", success: true, result: card });
 });
 
+export const getCardInfo = asyncHandler(async (req, res, next) => {
+  let user = req.user;
+  console.log(user);
+  let card = await cardModel
+    .findOne({ userId: user._id })
+    .populate({
+      path: "userId",
+      select: "firstName lastName userName email role gender phone ",
+    })
+    .populate({
+      path: "products.productId",
+      select: "-customId -createdBy -updateBy",
+    });
+
+  if (!card) {
+    card = await cardModel.create({
+      userId: user._id,
+    });
+  }
+
+  if (card?.products?.length > 0) {
+    await Promise.all(
+      card?.products?.map(async (product) => {
+        await Promise.all(
+          product?.productId?.Images?.map(async (image) => {
+            const { url } = await GetsingleImg({ ImgName: image.public_id });
+            image.secure_url = url;
+          })
+        );
+      })
+    );
+  }
+
+  return res.status(200).json({ message: "Card Information", card: card });
+});
 export const ________ = asyncHandler(async (req, res, next) => {});
