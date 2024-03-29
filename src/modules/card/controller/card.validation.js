@@ -14,7 +14,7 @@ export const addToCart = {
   }).required(),
 };
 export const deleteFromCart = {
-  body: Joi.object({
+  query: Joi.object({
     productId: Joi.custom(validationId).required(),
   }).required(),
 };

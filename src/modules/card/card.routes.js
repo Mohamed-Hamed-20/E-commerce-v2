@@ -12,7 +12,7 @@ router.post(
   valid(schema.addToCart),
   CardControl.addToCart
 );
-router.post(
+router.patch(
   "/deleteFromCart",
   isAuth([roles.admin, roles.super, roles.user]),
   valid(schema.deleteFromCart),

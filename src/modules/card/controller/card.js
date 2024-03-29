@@ -14,7 +14,7 @@ export const addToCart = asyncHandler(async (req, res, next) => {
   if (!ChkProduct) {
     return next(
       new Error("invalid product Id or quantity is not available ", {
-        cause: 400,
+        cause: 404,
       })
     );
   }
@@ -56,14 +56,8 @@ export const addToCart = asyncHandler(async (req, res, next) => {
 
 export const deleteFromCart = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
-  const { productId } = req.body;
-  // console.log({ userId, productId });
-  //chk product
-  const product = await productModel.findById({ _id: productId });
-  //if not found
-  if (!product) {
-    return next(new Error("invalid product Id", { cause: 400 }));
-  }
+  const { productId } = req.query;
+
   //find card to user
   const card = await cardModel.findOne({
     userId: userId,
@@ -74,15 +68,22 @@ export const deleteFromCart = asyncHandler(async (req, res, next) => {
       new Error("Card Not found or product not in card", { cause: 400 })
     );
   }
+  console.log(card);
+  //chk product
+  const product = await productModel.findById(productId);
+  //if not found
+  if (!product) {
+    return next(new Error("product Id Not found", { cause: 400 }));
+  }
+  console.log(product);
   // edit subTotal
-  let subTotal = card.subTotal;
-  for (const product of card.products) {
-    if (product.productId.toString() == productId) {
-      const getProduct = await productModel.findById(product.productId);
-      // console.log({ priceAfterDiscount: getProduct.priceAfterDiscount });
-      // console.log({ subTotal_in_card: card.subTotal });
-      subTotal -= getProduct.priceAfterDiscount * product.quantity;
-      // console.log({ subTotal: subTotal });
+  let subTotal = parseInt(card.subTotal) || 0;
+  console.log({ before: subTotal });
+  for (const productInfo of card.products) {
+    console.log({ hi: productInfo });
+    if (productInfo.productId.toString() == productId.toString()) {
+      subTotal -=
+        parseInt(product.priceAfterDiscount) * parseInt(productInfo.quantity);
     }
   }
   card.subTotal = subTotal;
@@ -92,13 +93,12 @@ export const deleteFromCart = asyncHandler(async (req, res, next) => {
     }
     return true;
   });
-  card.save();
-  return res.status(200).json({ message: "done", success: true, result: card });
+  const result = await card.save();
+  return res.status(200).json({ message: "done", success: true, result });
 });
 
 export const getCardInfo = asyncHandler(async (req, res, next) => {
   let user = req.user;
-  console.log(user);
   let card = await cardModel
     .findOne({ userId: user._id })
     .populate({
