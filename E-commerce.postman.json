@@ -1,0 +1,1476 @@
+{
+	"info": {
+		"_postman_id": "1ac41877-d6c3-4254-96a7-66480b487e9b",
+		"name": "E-commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27782301"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"mohamed\",\r\n    \"lastName\":\"salah\",\r\n    \"userName\":\"ahmed123\",\r\n    \"email\":\"ma2526057@gmail.com\",\r\n    \"password\":\"MH2020moh\",\r\n    \"cpassword\":\"MH2020moh\",\r\n    \"gender\":\"male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "mo",
+									"value": "https://mohamed-e-commerce-z8yi.onrender.com/",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "http://localhost:5000/user/register",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Register"
+					},
+					"response": [
+						{
+							"name": "Sign Up",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"mohamed\",\r\n    \"lastName\":\"salah\",\r\n    \"userName\":\"ahmed123\",\r\n    \"email\":\"ma2526057@gmail.com\",\r\n    \"password\":\"MH2020moh\",\r\n    \"cpassword\":\"MH2020moh\",\r\n    \"gender\":\"male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"user",
+										"register"
+									],
+									"query": [
+										{
+											"key": "mo",
+											"value": "https://mohamed-e-commerce-z8yi.onrender.com/",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "http://localhost:5000/user/register",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "RateLimit-Policy",
+									"value": "50;w=900"
+								},
+								{
+									"key": "RateLimit",
+									"value": "limit=50, remaining=49, reset=900"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "290"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"122-1TZ/H1mX16FfA5ZYrXEW/94bU/8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 11 Dec 2023 15:49:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"email is already exist\",\n    \"stack\": \"Error: email is already exist\\n    at file:///C:/Users/Mhmd%20Hamed/Downloads/New%20folder/E-commerce/ecommerce_deploy/src/modules/user/controller/user.js:20:17\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\"\n}"
+						}
+					]
+				},
+				{
+					"name": "confirmEmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/user/confirmEmail/79365960f555a404d64128fb4a4c14d1e02f7448640bceeceb6e1719bfe01a83ad8a73a3606b61b9dd2aae16e17e2a972ecf8acdfeca7d8d355e1b20071b789c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"confirmEmail",
+								"79365960f555a404d64128fb4a4c14d1e02f7448640bceeceb6e1719bfe01a83ad8a73a3606b61b9dd2aae16e17e2a972ecf8acdfeca7d8d355e1b20071b789c"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "sdf",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ma2526057@gmail.com\",\r\n    \"password\":\"MH2020moh11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://mohamed-e-commerce-z8yi.onrender.com/user/login",
+							"protocol": "https",
+							"host": [
+								"mohamed-e-commerce-z8yi",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send Forget Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ma2526057@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/sendForgetCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"sendForgetCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset passwoed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ma2526057@gmail.com\",\r\n    \"password\":\"MH2020moh\",\r\n    \"confirmPassword\":\"MH2020moh\",\r\n    \"forgetCode\":\"1573945\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/resetpassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"resetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTQ2MGExMzc1OWZmMWMyNzNmMjk4NTciLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTkzMDkwOTcsImV4cCI6MTY5OTMxMjY5N30.ySZ-Vgru_x6PlGN3dHTfKVrVDgTKEmrTBqZ9DPkOyNI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ma2526057@gmail.com\",\r\n    \"password\":\"MOhamed202\",\r\n    \"confirmPassword\":\"MOhamed202\",\r\n    \"forgetCode\":\"0309584\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/user/getuser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"getuser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTQ2MGExMzc1OWZmMWMyNzNmMjk4NTciLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTkwODg5NTQsImV4cCI6MTY5OTA5MjU1NH0.JK6zyI-3M-8St17rxHu0NTvrhf5-xLyXofPq4dKv_BY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imgcategory",
+									"type": "file",
+									"src": "/D:/photo/mo/salah/296560968_10160155098188953_8388053951666564632_n.jpg"
+								},
+								{
+									"key": "name",
+									"value": "mohamed salah",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://mohamed-e-commerce-z8yi.onrender.com/category/createCategory",
+							"protocol": "https",
+							"host": [
+								"mohamed-e-commerce-z8yi",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"category",
+								"createCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "mohamed__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5MzQ4NjE0NSwiZXhwIjoxNjkzNDg5NzQ1fQ.Wv6hHXfF7XAwOG54872fsN57D3CAi743jWTQ7VgDxSI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imgcategory",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/category/arts & crafts.jpg"
+								},
+								{
+									"key": "name",
+									"value": "phone",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/UpdateCategory?categoryid=64f06a2f8d93554fe77d4ee8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"UpdateCategory"
+							],
+							"query": [
+								{
+									"key": "categoryid",
+									"value": "64f06a2f8d93554fe77d4ee8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzAxNjI1NSwiZXhwIjoxNjk3MDU5NDU1fQ.aLxTUFo0bjNqRxb7wu92p4-ieF3pKk2GRP6lxP29iJI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imgcategory",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "phone",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/deleteCategory?categoryId=6526742cb24a04f969319ede",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"deleteCategory"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "6526742cb24a04f969319ede"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_all_Category_with_SubC",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imgcategory",
+									"type": "file",
+									"src": "/E:/photo/mo/arnold.png"
+								},
+								{
+									"key": "name",
+									"value": "phone",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/Get_all_Category_with_SubC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"Get_all_Category_with_SubC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTQxMDc2MDgsImV4cCI6MTY5NDExMTIwOH0.l__weRqjMPtULkyYE4RQs1KaLulPbeoQnFVLUNRScLg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imgcategory",
+									"type": "file",
+									"src": "/E:/photo/mo/arnold.png",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "phone",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://mohamed-e-commerce-z8yi.onrender.com/category/searchCategory?page=1&size=5&searchKey=mo",
+							"protocol": "https",
+							"host": [
+								"mohamed-e-commerce-z8yi",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"category",
+								"searchCategory"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "searchKey",
+									"value": "mo"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SubCategory",
+			"item": [
+				{
+					"name": "create subcategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzAxNjI1NSwiZXhwIjoxNjk3MDU5NDU1fQ.aLxTUFo0bjNqRxb7wu92p4-ieF3pKk2GRP6lxP29iJI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "liverpool",
+									"type": "text"
+								},
+								{
+									"key": "ImgSubCategory",
+									"type": "file",
+									"src": "/E:/photo/mo/Liverpool 2023/T shirt.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/SubCategory/CreateSubCategory?categoryId=652675a7b24a04f969319ef9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"SubCategory",
+								"CreateSubCategory"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "652675a7b24a04f969319ef9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update subcategory",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzAxNjI1NSwiZXhwIjoxNjk3MDU5NDU1fQ.aLxTUFo0bjNqRxb7wu92p4-ieF3pKk2GRP6lxP29iJI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Activity & Entertainment__",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "ImgSubCategory",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/subcategory/watchs.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/SubCategory/update?categoryid=64f061768d93554fe77d4eba&subcategoryid=64f076af8d93554fe77d4f08",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"SubCategory",
+								"update"
+							],
+							"query": [
+								{
+									"key": "categoryid",
+									"value": "64f061768d93554fe77d4eba"
+								},
+								{
+									"key": "subcategoryid",
+									"value": "64f076af8d93554fe77d4f08"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete subcategory",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzAxNjI1NSwiZXhwIjoxNjk3MDU5NDU1fQ.aLxTUFo0bjNqRxb7wu92p4-ieF3pKk2GRP6lxP29iJI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "iphone",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "ImgSubCategory",
+									"type": "file",
+									"src": "/E:/photo/mo/ben chillwal 2023.png",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/SubCategory/delete?subcategoryid=64f078be8d93554fe77d4f27&categoryid=64f067398d93554fe77d4ecb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"SubCategory",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "subcategoryid",
+									"value": "64f078be8d93554fe77d4f27"
+								},
+								{
+									"key": "categoryid",
+									"value": "64f067398d93554fe77d4ecb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetallSubCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/SubCategory/GetallSubCategory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"SubCategory",
+								"GetallSubCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search Subcategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/SubCategory/searchsubCategory?searchKey=Clothing",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"SubCategory",
+								"searchsubCategory"
+							],
+							"query": [
+								{
+									"key": "searchKey",
+									"value": "Clothing"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "brand",
+			"item": [
+				{
+					"name": "create brand",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTQxMDc2MDgsImV4cCI6MTY5NDExMTIwOH0.l__weRqjMPtULkyYE4RQs1KaLulPbeoQnFVLUNRScLg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "arsenal",
+									"type": "text"
+								},
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/E:/photo/mo/arsenal 2023/arsenal T-shirt 2024.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/brand/createBrand?subCategoryID=64f079378d93554fe77d4f2d&categoryID=64f067398d93554fe77d4ecb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brand",
+								"createBrand"
+							],
+							"query": [
+								{
+									"key": "subCategoryID",
+									"value": "64f079378d93554fe77d4f2d"
+								},
+								{
+									"key": "categoryID",
+									"value": "64f067398d93554fe77d4ecb"
+								},
+								{
+									"key": "brandid",
+									"value": "64f0604338810be9e1bfe8c5",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update brand",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "mohamed__eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTM1MjEyMTcsImV4cCI6MTY5MzUyNDgxN30.H2WrbkMWAej5p3FrumcN3aovU3Fy__lluOJnqsj2a3Y",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "dell",
+									"type": "text"
+								},
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/brands/dell.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/brand/updateBrand?subCategoryID=64f075868d93554fe77d4efc&categoryID=64f0604338810be9e1bfe8c5&brandid=64f07be22e66c30d21ce594a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brand",
+								"updateBrand"
+							],
+							"query": [
+								{
+									"key": "subCategoryID",
+									"value": "64f075868d93554fe77d4efc"
+								},
+								{
+									"key": "categoryID",
+									"value": "64f0604338810be9e1bfe8c5"
+								},
+								{
+									"key": "brandid",
+									"value": "64f07be22e66c30d21ce594a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search brand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/brand/searchbrand?searchKey=e&size=3&page=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"brand",
+								"searchbrand"
+							],
+							"query": [
+								{
+									"key": "searchKey",
+									"value": "e"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTQ0MzIyNzgsImV4cCI6MTY5NDQ3NTQ3OH0.K7SL37H2fXVau2RW0NimljLcQskha-mm1mJiOz-jslg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "porn AI sex",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "150",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "white",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "black",
+									"type": "text"
+								},
+								{
+									"key": "size",
+									"value": "2x",
+									"type": "text"
+								},
+								{
+									"key": "size",
+									"value": "xl",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/products/bikini/ai generator 2.jpg"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/products/bikini/ai generator.jpg"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/products/bikini/2022-women-swimwear-shiny--lingerie-set-halter-neck-bra-micro-mini-bik.jpg"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "desc",
+									"value": "i have big ass can you fuck it Plz",
+									"type": "text"
+								},
+								{
+									"key": "appliedDiscount",
+									"value": "20",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/product/createProduct?categoryId=64f0604338810be9e1bfe8c5&subCategoryId=64f075868d93554fe77d4efc&brandId=64f07be22e66c30d21ce594a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"product",
+								"createProduct"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "64f0604338810be9e1bfe8c5"
+								},
+								{
+									"key": "subCategoryId",
+									"value": "64f075868d93554fe77d4efc"
+								},
+								{
+									"key": "brandId",
+									"value": "64f07be22e66c30d21ce594a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTQxMDc2MDgsImV4cCI6MTY5NDExMTIwOH0.l__weRqjMPtULkyYE4RQs1KaLulPbeoQnFVLUNRScLg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Game Of Thrones",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "80",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "lanster",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "Stark",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "14",
+									"type": "text"
+								},
+								{
+									"key": "size",
+									"value": "2x",
+									"type": "text"
+								},
+								{
+									"key": "size",
+									"value": "xxl",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/products/Got/Game-of-Thrones.jpg"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/products/Got/Lanister Family.jpg"
+								},
+								{
+									"key": "appliedDiscount",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Course Node.js/Project_Node.js/EcommerceAPP_ Recap/imges/products/Got/stark family.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/product/updateProduct?categoryId=64f0604338810be9e1bfe8c5&subCategoryId=64f0770e8d93554fe77d4f0e&brandId=64fa0e04c87985eb5b08afea&productId=64fa1325b4c0abf05524792f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"product",
+								"updateProduct"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "64f0604338810be9e1bfe8c5"
+								},
+								{
+									"key": "subCategoryId",
+									"value": "64f0770e8d93554fe77d4f0e"
+								},
+								{
+									"key": "brandId",
+									"value": "64fa0e04c87985eb5b08afea"
+								},
+								{
+									"key": "productId",
+									"value": "64fa1325b4c0abf05524792f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTQ0MzE2ODIsImV4cCI6MTY5NDQzNTI4Mn0.RmD9V-Y_HdXrbOVCE53BP99MzWv0hXC3KF4RF4kHqOg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://mohamed-e-commerce-z8yi.onrender.com/product/getProduct?page=0&size=4",
+							"protocol": "https",
+							"host": [
+								"mohamed-e-commerce-z8yi",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"product",
+								"getProduct"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "4"
+								},
+								{
+									"key": "sort",
+									"value": "price,-stock",
+									"disabled": true
+								},
+								{
+									"key": "select",
+									"value": "price,title,-_id",
+									"disabled": true
+								},
+								{
+									"key": "price[gte]",
+									"value": "111",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search By Category Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWJhMTM4ODEwYmU5ZTFiZmU4YWQiLCJlbWFpbCI6Im1hMjUyNjA1N0BnbWFpbC5jb20iLCJpYXQiOjE2OTQ0MzE2ODIsImV4cCI6MTY5NDQzNTI4Mn0.RmD9V-Y_HdXrbOVCE53BP99MzWv0hXC3KF4RF4kHqOg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://mohamed-e-commerce-z8yi.onrender.com/category/64f067398d93554fe77d4ecb/products/searchByCategoryId",
+							"protocol": "https",
+							"host": [
+								"mohamed-e-commerce-z8yi",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"category",
+								"64f067398d93554fe77d4ecb",
+								"products",
+								"searchByCategoryId"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-price",
+									"disabled": true
+								},
+								{
+									"key": "select",
+									"value": "price,title,-_id , Imges",
+									"disabled": true
+								},
+								{
+									"key": "price[gte]",
+									"value": "80",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coupon",
+			"item": [
+				{
+					"name": "add Coupon",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzQ4NjE4OSwiZXhwIjoxNjk3NDg5Nzg5fQ.0uYlG04ZJCAt1f6wKDyx9MYYKLVshcQw8xW-0YL1_Z8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"couponCode\":\"aaaaaa\",\r\n        \"couponAmount\":90,\r\n        \"fromDate\":\"2023-10-16\",\r\n        \"toDate\":\"2023-10-20\",\r\n        \"isPercentage\":true,\r\n        \"couponAssginedToUsers\":[{\r\n            \"userId\":\"64f05c9238810be9e1bfe8b9\",\r\n            \"maxUsage\":5\r\n        },\r\n        { \r\n            \"userId\": \"64f05c9288810be7e1bfe8b9\"\r\n            , \"maxUsage\": 7 \r\n        }]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/coupon/createCoupon",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"coupon",
+								"createCoupon"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all copuons",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzQ4NjE4OSwiZXhwIjoxNjk3NDg5Nzg5fQ.0uYlG04ZJCAt1f6wKDyx9MYYKLVshcQw8xW-0YL1_Z8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/coupon/getallcopuons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"coupon",
+								"getallcopuons"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "card",
+			"item": [
+				{
+					"name": "add To Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzUyNzM2MywiZXhwIjoxNjk3NTMwOTYzfQ.CDn-z_IJX3SIorem2m3rg77MSsGyX11wYMO0nd8nows",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\":\"64ff088a79f4127ae6c9556b\",\r\n    \"quantity\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/card/addToCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"card",
+								"addToCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete From Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzUyNzM2MywiZXhwIjoxNjk3NTMwOTYzfQ.CDn-z_IJX3SIorem2m3rg77MSsGyX11wYMO0nd8nows",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\":\"64fa11cbb4c0abf05524751b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/card/deleteFromCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"card",
+								"deleteFromCart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "create order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzgxNjMzMCwiZXhwIjoxNjk3ODU5NTMwfQ.TqGByg-bVLQeotXjSrfq_jrFQGH9p9y6Q2A8YzxiaYw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\":7,\r\n    \"productId\":\"64f6411a6e25a1cfd5fc1ee5\",\r\n    \"couponCode\":\"trent\",\r\n    \"paymentMethod\":\"card\",\r\n    \"address\":\"egypt\",\r\n    \"phoneNumbers\":\"01152347186\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/order/add_order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"order",
+								"add_order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "card To Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "mo_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJlbWFpbCI6Im1hbGFrQGdtYWlsLmNvbSIsImlhdCI6MTY5NzU0Njc5MywiZXhwIjoxNjk3NTg5OTkzfQ.NStXLG3A1T9HuKNxeABSFRXjGFDHSOpKwjwIWZhtSyc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cartId\":\"6511893277c3ab82cd1e0ef5\",\r\n    \"couponCode\":\"mohamed\",\r\n    \"paymentMethod\":\"cash\",\r\n    \"address\":\"egypt\",\r\n    \"phoneNumbers\":\"01152347186\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/order/cardToOrder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"order",
+								"cardToOrder"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
