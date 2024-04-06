@@ -28,6 +28,9 @@ export const addToCart = asyncHandler(async (req, res, next) => {
     };
     // console.log(cardObject.subTotal);
     const save_Card = await cardModel.create(cardObject);
+    if (!save_Card) {
+      return next(new Error("server error try later", { cause: 500 }));
+    }
     return res.status(200).json({ message: "done", result: save_Card });
   }
   if (card) {
@@ -49,8 +52,11 @@ export const addToCart = asyncHandler(async (req, res, next) => {
       subTotal += price_product.priceAfterDiscount * product.quantity;
     }
     card.subTotal = subTotal;
-    await card.save();
-    return res.status(200).json({ message: "done", result: card });
+    const result = await card.save();
+    if (!result) {
+      return next(new Error("server error try later", { cause: 500 }));
+    }
+    return res.status(200).json({ message: "done", result: result });
   }
 });
 
