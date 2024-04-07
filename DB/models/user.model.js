@@ -2,8 +2,8 @@ import mongoose, { Schema, model } from "mongoose";
 
 const userSchema = new Schema(
   {
-    firstName: { type: String },
-    lastName: { type: String },
+    firstName: { type: String, lowercase: true },
+    lastName: { type: String, lowercase: true },
     userName: {
       type: String,
       required: true,

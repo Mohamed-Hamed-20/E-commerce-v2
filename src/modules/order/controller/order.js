@@ -21,7 +21,7 @@ export const add_order = asyncHandler(async (req, res, next) => {
   //=============================== product ===================================
   const product = await productModel.findById({ _id: productId });
   if (!product || product.stock < quantity) {
-    return next(new Error("invalid product id or quantity"), { cause: 400 });
+    return next(new Error("invalid product id or quantity Not available"), { cause: 400 });
   }
   //=============================== couponValidation ===================================
   if (couponCode) {

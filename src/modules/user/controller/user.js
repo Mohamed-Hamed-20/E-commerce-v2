@@ -13,6 +13,8 @@ import { generateToken } from "../../../utils/tokenFunctions.js";
 import { storeRefreshToken } from "../../../utils/Tokens.js";
 import { hashpassword, verifypass } from "../../../utils/hashpassword.js";
 import TokenModel from "../../../../DB/models/Token.model.js";
+import { ApiFeature } from "../../../utils/apiFeature.js";
+import { roles } from "../../../middleware/authentication.js";
 const nanoid = customAlphabet("1234567890", 7);
 
 export const register = asyncHandler(async (req, res, next) => {
@@ -202,5 +204,36 @@ export const getuser = asyncHandler(async (req, res, next) => {
     return next(new Error("User not found"));
   }
   return res.status(200).json({ message: "done", user: result });
+});
+export const searchusers = asyncHandler(async (req, res, next) => {
+  const allowFields = [
+    "firstName",
+    "lastName",
+    "userName",
+    "email",
+    "address",
+    "phone",
+    "gender",
+    "status",
+    "role",
+  ];
+
+  const searchFieldsText = ["firstName", "lastName", "userName", "email"];
+  const searchFieldsIds = ["_id"];
+  const apiFeatureInstance = new ApiFeature(
+    usermodel.find({ role: roles.user }),
+    req.query,
+    allowFields
+  )
+    .pagination()
+    .sort()
+    .select()
+    .filter()
+    .search({ searchFieldsIds, searchFieldsText });
+  const users = await apiFeatureInstance.MongoseQuery;
+
+  return res
+    .status(200)
+    .json({ message: "Done", success: true, result: users });
 });
 export const ___ = asyncHandler(async (req, res, next) => {});
