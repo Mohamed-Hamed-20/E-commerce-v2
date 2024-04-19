@@ -66,6 +66,7 @@ export const hellowpage = async () => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mohamed Hamed Portfolio</title>
+    <link rel="icon" href="path_to_your_image/favicon.ico" type="image/x-icon"> <!-- Add image for tab icon -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -103,52 +104,52 @@ export const hellowpage = async () => {
             margin-bottom: 20px;
             text-align: left;
         }
-        .link-container a {
+        .link-container a,
+        .link-container button {
             display: inline-block;
             margin-right: 10px;
+            margin-bottom: 10px; /* Add margin bottom to separate buttons */
             padding: 10px 20px;
             border-radius: 5px;
             background-color: #007bff;
             color: #fff;
             text-decoration: none;
             transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            border: none;
+            outline: none;
         }
-        .link-container a:hover {
+        .link-container a:hover,
+        .link-container button:hover {
             background-color: #0056b3;
         }
-.social-icons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .social-icons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.social-icons a {
-    display: inline-block;
-    margin-right: 20px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #4CAF50; 
-    width: auto; 
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-    padding: 0 10px; 
-    border-radius: 5px; 
-}
-
-.social-icons a:hover {
-    background-color: #45a049;
-}
-
-
-
+        .social-icons a {
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #4CAF50; 
+            width: auto; 
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0 10px; 
+            border-radius: 5px; 
+        }
 
         .social-icons a:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
         }
+
         img {
             max-width: 200px;
             border-radius: 10px;
@@ -161,8 +162,11 @@ export const hellowpage = async () => {
         <div class="content">
             <h4>Welcome to My API Services</h4>
             <div class="link-container">
-                <a href="${process.env.Apidoc}"  target="_blank">View API project documentation</a>
+                <a href="${process.env.Apidoc}" target="_blank">View API project documentation</a>
                 <a href="${process.env.ProjectOnGithub}" target="_blank">View full project on GitHub</a>
+                <a href="${process.env.LiveServer}" target="_blank">View live Project </a> <!-- New link for Live Server -->
+                <a href="${process.env.ProjectVideo}" target="_blank">View project video</a> <!-- New link for Project Video -->
+
             </div>
             <h2><span>${process.env.Myname}</span></h2>
             <p>Title: Backend Node.js Developer</p>
@@ -176,7 +180,5 @@ export const hellowpage = async () => {
         <img src="${process.env.profileImg}" alt="Mohamed Hamed">
     </div>
 </body>
-</html>
-
-`;
+</html>`;
 };
