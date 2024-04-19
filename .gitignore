@@ -6,3 +6,7 @@
 
 ./config/config.env
 ./config
+
+./try.js
+
+./E-commerce.postman.json
