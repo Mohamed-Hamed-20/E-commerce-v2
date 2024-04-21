@@ -1,16 +1,22 @@
 import Joi from "joi";
 import { Types } from "mongoose";
-import { customMessages } from "../../../middleware/validation.js";
+import {
+  customMessages,
+  generalFields,
+} from "../../../middleware/validation.js";
 const validationId = (value, helper) => {
+  console.log(value);
+
   if (!Types.ObjectId.isValid(value)) {
     return helper.message("invalid object ID");
   } else {
-    return true;
+    console.log(value);
+    return value;
   }
 };
 export const addToCart = {
   body: Joi.object({
-    productId: Joi.custom(validationId).required().messages(customMessages),
+    productId: generalFields._id.required(),
     quantity: Joi.number().min(1).max(50).required().messages(customMessages),
   }).required(),
 };

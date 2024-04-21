@@ -33,6 +33,7 @@ export const addToCart = asyncHandler(async (req, res, next) => {
     }
     return res.status(200).json({ message: "done", result: save_Card });
   }
+
   if (card) {
     let updated = false;
     for (const product of card.products) {
@@ -41,6 +42,7 @@ export const addToCart = asyncHandler(async (req, res, next) => {
         updated = true;
       }
     }
+
     if (!updated) {
       card.products.push({ productId, quantity });
     }
@@ -49,7 +51,15 @@ export const addToCart = asyncHandler(async (req, res, next) => {
       const price_product = await productModel.findById({
         _id: product.productId,
       });
-      subTotal += price_product.priceAfterDiscount * product.quantity;
+
+      console.log(price_product);
+      console.log(
+        parseFloat(price_product.priceAfterDiscount) *
+          parseInt(product.quantity)
+      );
+      subTotal +=
+        parseFloat(price_product.priceAfterDiscount) *
+        parseInt(product.quantity);
     }
     card.subTotal = subTotal;
     const result = await card.save();
