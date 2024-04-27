@@ -49,7 +49,7 @@ export const register = asyncHandler(async (req, res, next) => {
     subject: "confirm Email",
     html: `${SignUpTemplet(link)}`,
   });
-
+  console.log(isSend);
   if (!isSend) {
     return next(new Error("Something went wrong!", { cause: 500 }));
   }
