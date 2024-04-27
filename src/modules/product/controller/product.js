@@ -54,7 +54,7 @@ export const createProduct = asyncHandler(async (req, res, next) => {
     return public_id;
   });
   await Promise.all(uploadPromises);
-  console.log(Images);
+
   // Create product using uploaded images
   const product = {
     title,

@@ -28,6 +28,7 @@ export const createCategory = asyncHandler(async (req, res, next) => {
       })
     );
   }
+
   const slug = slugify(name, "_");
   const customId = name + "_" + generate_Nanoid();
 
@@ -39,7 +40,7 @@ export const createCategory = asyncHandler(async (req, res, next) => {
       use_filename: true,
     }
   );
-  console.log({ secure_url, public_id });
+
   const create = {
     name,
     slug,

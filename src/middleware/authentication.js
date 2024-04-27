@@ -34,11 +34,12 @@ export const isAuth = (roles) => {
         return next(new Error("Invalid Token Payload", { cause: 400 }));
       }
 
-      if (decode.IpAddress != req.ip) {
-        return next(
-          new Error("Invalid Ip Address Login Again", { cause: 401 })
-        );
-      }
+      // if (decode.IpAddress != req.ip) {
+      //   console.log({ My_IP: req.ip, IpAddress: decode.IpAddress });
+      //   return next(
+      //     new Error("Invalid Ip Address Login Again", { cause: 401 })
+      //   );
+      // }
       //if user search in usermodel if admin or instructor search in admin model
 
       const user = await usermodel.findById({ _id: decode.userId });

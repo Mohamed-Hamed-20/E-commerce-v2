@@ -32,7 +32,7 @@ export const register = asyncHandler(async (req, res, next) => {
 
   const hashpassword = hashSync(password, parseInt(process.env.salt_Round));
   const activationCode = crypto.randomBytes(64).toString("hex");
-  console.log(hashpassword);
+
   const result = new usermodel({
     firstName,
     lastName,
@@ -42,9 +42,6 @@ export const register = asyncHandler(async (req, res, next) => {
     gender,
     activationCode,
   });
-  if (!result) {
-    return next(new Error("invalid-signUP", { cause: 500 }));
-  }
 
   const link = `${req.protocol}://${req.headers.host}/user/confirmEmail/${activationCode}`;
   const isSend = await sendEmail({
@@ -54,16 +51,18 @@ export const register = asyncHandler(async (req, res, next) => {
   });
 
   if (!isSend) {
-    return next(new Error("Something went wrong!", { cause: 400 }));
+    return next(new Error("Something went wrong!", { cause: 500 }));
   }
-  //safe document
-  await result.save();
 
-  return isSend
-    ? res
-        .status(200)
-        .json({ message: "Done and chk you inbox to confirm ur email", result })
-    : next(new Error("Something went wrong!"));
+  //safe document
+  const done1 = await result.save();
+  if (!done1) {
+    return next(new Error("Something went wrong!", { cause: 500 }));
+  }
+
+  return res
+    .status(201)
+    .json({ message: "Done and chk you inbox to confirm ur email", result });
 });
 
 export const confirmEmail = asyncHandler(async (req, res, next) => {
