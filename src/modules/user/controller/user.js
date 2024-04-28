@@ -67,15 +67,27 @@ export const register = asyncHandler(async (req, res, next) => {
 
 export const confirmEmail = asyncHandler(async (req, res, next) => {
   const { activationCode } = req.params;
-  console.log(activationCode);
-  const findUser = await usermodel.findOneAndUpdate(
-    { activationCode: activationCode },
-    { isconfrimed: true, $unset: { activationCode: 1 } }
-  );
+
+  const findUser = await usermodel
+    .findOneAndUpdate(
+      { activationCode: activationCode },
+      { isconfrimed: true, $unset: { activationCode: 1 } },
+      { new: true }
+    )
+    .lean();
   if (!findUser) {
     return next(new Error("user Not found ", { cause: 404 }));
   }
-  return res.status(200).json({ message: "done Email confrimed", findUser });
+  return res.status(200).json({
+    message: "done Email confrimed",
+    user: {
+      _id: findUser._id,
+      firstName: findUser.firstName,
+      lastName: findUser.lastName,
+      email: findUser.email,
+      isconfrimed: findUser.isconfrimed,
+    },
+  });
 });
 
 export const login = asyncHandler(async (req, res, next) => {
