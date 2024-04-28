@@ -1,54 +1,87 @@
-# E-Commerce Project
 
-## Project Description
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/Mohamed-Hamed-20/E-commerce-v2">
+    <img src="https://cdn-icons-png.flaticon.com/512/6213/6213702.png" alt="Logo" width="200" height="200">
+  </a>
 
-Enhanced online shopping experience by seamlessly integrating Stripe for smooth payment transactions. Overcame challenges such as implementing a coupon system to provide discounts to customers. Implemented a dynamic pricing mechanism to calculate discounted prices accurately. Automated the generation of invoices for efficient order processing. Set up automatic email notifications to provide customers with essential order information. Successfully deployed the project on Server Render for optimal performance.
+  <h3 align="center">Node.js E-Commerce API</h3>
+</p>
 
-### Features
+<h4 align="center">Ecommerce API built using NodeJS & Express & MongoDB</h4>
 
-- Payment method
-- Coupons
-- Auth JWT
-- Upload Images
-- Order
-- Card
+## Table of Contents
 
-## Operating Requirements
+- [Description](#description)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Deployment](#deployment)
+- [Installation](#installation)
 
-1. Install [Node.js](https://nodejs.org/en/download) on your machine.
-2. Install [Visual Studio Code](https://code.visualstudio.com/download), [Postman](https://www.postman.com/downloads/), and [MongoDB Compass](https://www.mongodb.com/try/download/compass) (Optional; you can run code with these tools).
 
-## Running the Project
+## Description
 
-1. Download and open the project source in your VSCode.
-2. Open the terminal.
-3. Install packages: `npm i` or `npm install`.
-4. Run the project: `npm run dev` or `npm start`.
-5. Create and input your data in the `.env` file, including:
+A RESTful API for building a full-featured E-Commerce application. This API provides the backend functionality required for managing products, users, orders, reviews, wishlist, addresses, coupons and more in an E-Commerce system.
 
-   - Port
-   - DB URL
-   - Salt Round
-   - Email
-   - Password
-   - Default Signature
-   - Folder Name
-   - Token Key
-   - Token Start
-   - Node Environment
+## Features
 
-6. Open the Postman file (included with the code) on your Postman app.
+- User authentication and authorization.
+- Categories management (create, read, update, delete).
+- Subcategories management (create, read, update, delete).
+- Brands management (create, read, update, delete).
+- Reviews management (create, read, update, delete).
+- Product management (create, read, update, delete).
+- Wishlist management (add product, delete product, read).
+- Coupons management (create, read, update, delete).
+- User management (register, login, profile confirm Emails , forget password , send emails ).
+- Order processing (create, view, update) with cash or card.
+- Cart functionality.
+- Payment processing integration (Stripe).
 
-## Contributing
+## Technologies Used
 
-If you would like to contribute to the project, follow these steps:
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- sharp
+- multer
+- bcrypt
+- Slugify
+- Aws s3
+- nodemailer
+- Cors
+- compression
+- hpp
+- express-rate-limit
+- express-mongo-sanitize
+- xss-clean
+- rate limiter
+- query performance
+- add indexes increase performance 
+- Stripe (for payment processing)
 
-1. Fork the project.
-2. Create your feature branch (`git checkout -b feature/YourFeature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/YourFeature`).
-5. Open a pull request.
+  
+## Deployment
 
-## License
+The API is deployed with git into Cyclic. Below are the steps taken:
 
-This project is licensed under the [MIT License](LICENSE).
+```
+git init
+git add -A
+git commit -m "Commit message"
+```
+
+ ## Installation
+
+You can fork the app or you can git-clone the app into your local machine. Once done that, please install all the dependencies by running
+
+```sh
+$ npm install
+set your env variables
+$ npm run start:dev
+
+
+
