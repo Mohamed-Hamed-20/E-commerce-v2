@@ -6,6 +6,7 @@ import { asyncHandler } from "../../../utils/errorHandling.js";
 import Stripe from "stripe";
 import { generateToken, verifyToken } from "../../../utils/tokenFunctions.js";
 import couponModel from "../../../../DB/models/coupon.model.js";
+import { paymentFunction, stripeCoupons } from "../../../utils/payment.js";
 // import { paymentFunction } from "../../../utils/payment.js";
 export const add_order = asyncHandler(async (req, res, next) => {
   //=============================== req.body ===================================
@@ -19,10 +20,16 @@ export const add_order = asyncHandler(async (req, res, next) => {
     paymentMethod,
   } = req.body;
   //=============================== product ===================================
-  const product = await productModel.findById({ _id: productId });
+  const product = await productModel
+    .findById({ _id: productId })
+    .select("title desc priceAfterDiscount Images stock");
+
   if (!product || product.stock < quantity) {
-    return next(new Error("invalid product id or quantity Not available"), { cause: 400 });
+    return next(new Error("invalid product id or quantity Not available"), {
+      cause: 400,
+    });
   }
+
   //=============================== couponValidation ===================================
   if (couponCode) {
     const isCouponValid = await couponValidation(couponCode, userId);
@@ -35,6 +42,7 @@ export const add_order = asyncHandler(async (req, res, next) => {
   let products = [];
   products.push({
     title: product.title,
+    desc: product.desc,
     productId: product._id,
     quantity: quantity,
     price: product.priceAfterDiscount,
@@ -42,10 +50,12 @@ export const add_order = asyncHandler(async (req, res, next) => {
   });
   let subTotal = 0;
   subTotal = product.priceAfterDiscount * quantity;
+
   //=================================== paidAmount && req.coupon ==========================================
   if (req.coupon?.isFixedAmount && subTotal < req.coupon?.couponAmount) {
     return next(new Error("invalid Coupon Amount", { cause: 400 }));
   }
+
   let paidAmount = 0;
   if (req.coupon?.isPercentage) {
     paidAmount = subTotal * (1 - (req.coupon.couponAmount || 0) / 100);
@@ -54,6 +64,7 @@ export const add_order = asyncHandler(async (req, res, next) => {
   } else {
     paidAmount = subTotal;
   }
+
   //================================== orderStatus =======================================
   let orderStatus;
   if (paymentMethod == "cash") {
@@ -73,66 +84,65 @@ export const add_order = asyncHandler(async (req, res, next) => {
     address: address,
     phoneNumbers: [phoneNumbers],
   };
-  console.log(orderOb);
+
   const order = await orderModel.create(orderOb);
+
   if (!order) {
     return next(new Error("failed to create order", { cause: 400 }));
   }
+
   let paymentData;
   if (orderOb.paymentMethod == "card") {
-    const stripe = new Stripe(process.env.STRIPE_KEY);
     let stripeCoupon;
-    if (req.coupon?.isPercentage) {
-      stripeCoupon = await stripe.coupons.create({
-        percent_off: req.coupon.couponAmount,
-      });
+    if (req?.coupon) {
+      stripeCoupon = await stripeCoupons(req?.coupon);
     }
-    if (req.coupon?.isFixedAmount) {
-      stripeCoupon = await stripe.coupons.create({
-        amount_off: req.coupon.couponAmount,
-        currency: "EGP",
-      });
-    }
+
     const token = generateToken({
       payload: { orderId: order._id },
       expiresIn: 60 * 60,
+      signature: process.env.DEFAULT_SIGNATURE,
     });
-    paymentData = await stripe.checkout.sessions.create({
+    var frontEndURL = req.headers.referer;
+    console.log(frontEndURL);
+    paymentData = await paymentFunction({
       payment_method_types: ["card"],
       mode: "payment",
-      metadata: order._id,
+      // discounts: stripeCoupon ? { coupon: stripeCoupon.id } : null,
       customer_email: req.user.email,
-      success_url: `https://www.youtube.com/order/success_url/${token}`,
-      cancel_url: `https://www.youtube.com/order/cancel_url/${token}`,
-      discounts: stripeCoupon ? [{ coupon: stripeCoupon.id }] : [],
-      line_items: order.products.map((ele) => {
+      metadata: { orderId: order._id.toString() },
+      success_url: `${req.protocol}://${req.headers.host}/order/successUrl?key=${token}`,
+      cancel_url: `${req.protocol}://${req.headers.host}/order/cancelUrl?key=${token}`,
+      line_items: products.map((prod) => {
         return {
           price_data: {
             currency: "EGP",
+            unit_amount: prod.price * 100,
             product_data: {
-              name: ele.title,
+              name: prod.title,
+              description: prod.desc,
             },
-            unit_amount: ele.price * 100,
           },
-          quantity: ele.quantity,
+          quantity: prod.quantity,
         };
       }),
     });
-    console.log(paymentData);
   }
-  product.stock -= quantity;
-  await product.save();
+
+  product.stock -= parseInt(quantity);
+
   if (req.coupon) {
     for (const userCoupon of req.coupon.couponAssginedToUsers) {
       if (userCoupon.userId.toString() == req.user._id.toString()) {
         userCoupon.usageCount += 1;
       }
     }
-    await req.coupon.save();
+
+    await Promise.all([req.coupon.save(), product.save()]);
   }
   return res
     .status(200)
-    .json({ message: "done", result: order, paymentData: paymentData });
+    .json({ message: "done", order: order, paymentData: paymentData });
 });
 
 // ============================    new        ========================

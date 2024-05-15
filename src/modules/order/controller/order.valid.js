@@ -5,7 +5,7 @@ export const add_order = {
   body: Joi.object({
     quantity: Joi.number().required(),
     productId: generalFields._id.required(),
-    couponCode: Joi.string().required(),
+    couponCode: Joi.string().optional(),
     address: Joi.string().required(),
     phoneNumbers: Joi.string().required(),
     paymentMethod: Joi.string().valid("card", "cash").required(),

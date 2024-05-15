@@ -2,7 +2,9 @@ import couponModel from "../../DB/models/coupon.model.js";
 
 export const couponValidation = async (couponCode, userId) => {
   //1 copon in DB
-  const coupon = await couponModel.findOne({ couponCode });
+  const coupon = await couponModel
+    .findOne({ couponCode })
+    .select("-createdBy -updatedBy -deletedBy");
   if (!coupon) {
     return { msg: "invalid coupon Code" };
   }
@@ -15,6 +17,9 @@ export const couponValidation = async (couponCode, userId) => {
     return { msg: "couponCode end time" };
   }
   //4 coupon is allow to this user
+  if (coupon.fromDate > Date.now()) {
+    return { msg: "couponCode time Not start yet" };
+  }
   //5 copun is less than max use
   let isAssgined = false;
   let exceed = false;

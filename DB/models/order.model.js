@@ -39,7 +39,7 @@ const orderSchema = new Schema(
     couponId: {
       type: Types.ObjectId,
       ref: "coupon",
-      required: true,
+      required: false,
     },
     paidAmount: {
       type: Number,

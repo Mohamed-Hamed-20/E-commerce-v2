@@ -6,7 +6,6 @@ import { asyncHandler } from "../../../utils/errorHandling.js";
 export const addToCart = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
   const { productId, quantity } = req.body;
-  //   console.log({ productId, quantity });
   const ChkProduct = await productModel.findOne({
     _id: productId,
     stock: { $gte: quantity },
@@ -26,7 +25,6 @@ export const addToCart = asyncHandler(async (req, res, next) => {
       products: [{ productId: productId, quantity: quantity }],
       subTotal: (subTotal += ChkProduct.priceAfterDiscount * quantity),
     };
-    // console.log(cardObject.subTotal);
     const save_Card = await cardModel.create(cardObject);
     if (!save_Card) {
       return next(new Error("server error try later", { cause: 500 }));
@@ -52,11 +50,6 @@ export const addToCart = asyncHandler(async (req, res, next) => {
         _id: product.productId,
       });
 
-      console.log(price_product);
-      console.log(
-        parseFloat(price_product.priceAfterDiscount) *
-          parseInt(product.quantity)
-      );
       subTotal +=
         parseFloat(price_product.priceAfterDiscount) *
         parseInt(product.quantity);

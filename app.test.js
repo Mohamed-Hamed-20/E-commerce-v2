@@ -9,9 +9,9 @@ describe("POST /user/register", () => {
   it("responds with json", async () => {
     // user data to send
     const userData = {
-      firstName: "Mohamed",
-      lastName: "Hamed",
-      userName: "Mohamed-salah-V2",
+      firstName: "jlaksmdl",
+      lastName: "lsmams",
+      userName: "Mohamed-salah132",
       email: "mosalah1@gmail.com",
       password: "MH2020salah",
       cpassword: "MH2020salah",
@@ -29,11 +29,11 @@ describe("POST /user/register", () => {
   }, 10000);
 });
 
-// user or admin login In our system
+// // user or admin login In our system
 describe("POST /login", () => {
   it("respond with json", async () => {
     const login = {
-      email: "mh674281@gmail.com",
+      email: "mosalah@gmail.com",
       password: "MH2020salah",
     };
 
@@ -60,7 +60,7 @@ describe("POST /product/createProduct", () => {
   it("should create a product with images and return success message", async () => {
     // form data to create product
     const form = new FormData();
-    form.append("title", "Test Product");
+    form.append("title", "test number 22");
     form.append("desc", "This is a test product");
     form.append("color", "red");
     form.append("size", "small");
@@ -75,15 +75,15 @@ describe("POST /product/createProduct", () => {
     form.append("image", fs.createReadStream("./T shirt.png"));
 
     const response = await request(app)
-      .post("/product/createProduct?categoryId=660629bf3d64149cdd1b7e28")
+      .post("/product/createProduct?categoryId=66335d01d83c1caec54b61f0")
       .set("Content-Type", `multipart/form-data; boundary=${form._boundary}`)
       .set(
         "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5ZTVkOTZkZTA2ZDQzZjU4ZmQ1MDgiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQyNTMzNTUsImV4cCI6MTcxNDI1Njk1NX0.wGN87qmTqYFUaSpTBhTLtMw-ICsqosH5rDvHkgaSzVA"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQ2NDI0NDgsImV4cCI6MTcxNDY3MTI0OH0.k-qjiBpS9qAeoDbP0uxmAJfXPRz2qACGXFClM1M2-xU"
       )
       .set(
         "refresh-token",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5ZTVkOTZkZTA2ZDQzZjU4ZmQ1MDgiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQyNTMzNTUsImV4cCI6MTcxNDY4NTM1NX0.HIlIiChu6M3EDRWuy8xutGRd7N3ZcV14TrVCF-9x_fk"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQ2NDI0NDgsImV4cCI6MTcxNTA3NDQ0OH0.K5znfM-ez18bUwMcaIkFt_78oE1RrWAJfEE0m7QY51Q"
       )
       .field("title", "Test Product")
       .field("desc", "This is a test product")
@@ -115,12 +115,12 @@ describe("GET /product/getProduct", () => {
   });
 });
 
-// add product to my card
+// // add product to my card
 describe("POST /card/addToCart", () => {
-  it("Add product to my card ", async () => {
+  it("add product to my card ", async () => {
     const Info = {
-      productId: "661324a531d9ff4d16ef5e51",
-      quantity: 5,
+      productId: "661324c931d9ff4d16ef5e56",
+      quantity: 2,
     };
 
     const response = await request(app)
@@ -128,17 +128,17 @@ describe("POST /card/addToCart", () => {
       .send(Info)
       .set(
         "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5ZTVkOTZkZTA2ZDQzZjU4ZmQ1MDgiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQyNTgxMDEsImV4cCI6MTcxNDI2MTcwMX0.KbB8LFkHWHI11fF5FLWvp46k8wEtDITRh3Wu6yPvX6k"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQ2NDI0NDgsImV4cCI6MTcxNDY3MTI0OH0.k-qjiBpS9qAeoDbP0uxmAJfXPRz2qACGXFClM1M2-xU"
       )
       .set(
         "refresh-token",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5ZTVkOTZkZTA2ZDQzZjU4ZmQ1MDgiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQyNTgxMDEsImV4cCI6MTcxNDY5MDEwMX0.GEMx1F7aTEIhcsL1x7nSHxcxTmWll88oxTtBo31Fgik"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQ2NDI0NDgsImV4cCI6MTcxNTA3NDQ0OH0.K5znfM-ez18bUwMcaIkFt_78oE1RrWAJfEE0m7QY51Q"
       );
     // console.log(response.body);
     expect(response.status).toBe(200);
     expect(response.body.message).toBe("done");
   });
-});
+}, 10000);
 
 // get my card Information
 describe("GET /card/getCardInfo", () => {
@@ -147,11 +147,11 @@ describe("GET /card/getCardInfo", () => {
       .get("/card/getCardInfo")
       .set(
         "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5ZTVkOTZkZTA2ZDQzZjU4ZmQ1MDgiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQyNTgxMDEsImV4cCI6MTcxNDI2MTcwMX0.KbB8LFkHWHI11fF5FLWvp46k8wEtDITRh3Wu6yPvX6k"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQ2NDI0NDgsImV4cCI6MTcxNDY3MTI0OH0.k-qjiBpS9qAeoDbP0uxmAJfXPRz2qACGXFClM1M2-xU"
       )
       .set(
         "refresh-token",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5ZTVkOTZkZTA2ZDQzZjU4ZmQ1MDgiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQyNTgxMDEsImV4cCI6MTcxNDY5MDEwMX0.GEMx1F7aTEIhcsL1x7nSHxcxTmWll88oxTtBo31Fgik"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGYwNWM1YTM4ODEwYmU5ZTFiZmU4YjIiLCJyb2xlIjoiYWRtaW4iLCJJcEFkZHJlc3MiOiI6OjEiLCJpYXQiOjE3MTQ2NDI0NDgsImV4cCI6MTcxNTA3NDQ0OH0.K5znfM-ez18bUwMcaIkFt_78oE1RrWAJfEE0m7QY51Q"
       );
     // console.log(response.body);
     expect(response.status).toBe(200);
