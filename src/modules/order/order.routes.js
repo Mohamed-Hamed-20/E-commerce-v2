@@ -9,8 +9,12 @@ router.use(
   "/add_order",
   valid(orderSchema.add_order),
   isAuth([roles.admin, roles.super, roles.user]),
-  oc.add_order
+  oc.productVaildation,
+  oc.applyCoupon,
+  oc.makeOrder,
+  oc.paymentMethod
 );
+
 router.use(
   "/cardToOrder",
   valid(orderSchema.cardToOrder),
@@ -18,6 +22,8 @@ router.use(
   oc.cardToOrder
 );
 // ============================================================================
-router.use("/success_url", oc.success_url);
-router.use("/cancel_url", oc.cancel_url);
+router.get("/success_url", oc.success_url);
+router.get("/cancel_url", oc.cancel_url);
+
+router.get("/get/orders", isAuth([roles.admin, roles.super]), oc.searchOrders);
 export default router;

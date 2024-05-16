@@ -7,28 +7,48 @@ import Stripe from "stripe";
 import { generateToken, verifyToken } from "../../../utils/tokenFunctions.js";
 import couponModel from "../../../../DB/models/coupon.model.js";
 import { paymentFunction, stripeCoupons } from "../../../utils/payment.js";
-// import { paymentFunction } from "../../../utils/payment.js";
-export const add_order = asyncHandler(async (req, res, next) => {
-  //=============================== req.body ===================================
-  const userId = req.user._id;
-  const {
-    quantity,
-    productId,
-    couponCode,
-    address,
-    phoneNumbers,
-    paymentMethod,
-  } = req.body;
-  //=============================== product ===================================
-  const product = await productModel
-    .findById({ _id: productId })
-    .select("title desc priceAfterDiscount Images stock");
+import { ApiFeature } from "../../../utils/apiFeature.js";
 
-  if (!product || product.stock < quantity) {
-    return next(new Error("invalid product id or quantity Not available"), {
-      cause: 400,
-    });
+export const validateOrder = asyncHandler(async (req, res, next) => {
+  await Promise.all([
+    productVaildation(req, res, next),
+    applyCoupon(req, res, next),
+  ]);
+
+  await Promise.all([makeOrder(req, res, next), paymentMethod(req, res, next)]);
+});
+
+export const productVaildation = asyncHandler(async (req, res, next) => {
+  const { quantity, productId } = req.body;
+
+  // Get product
+  const product = await productModel
+    .findById(productId)
+    .select("title desc priceAfterDiscount stock");
+
+  // product not found
+  if (!product) {
+    return next(new Error("Invaild ProductId", { cause: 404 }));
   }
+  // not availabe stock
+  if (product.stock < quantity) {
+    return next(
+      new Error(`Insufficient stock. Available quantity: ${product.stock}`, {
+        cause: 400,
+      })
+    );
+  }
+
+  const orderPrice = product.priceAfterDiscount * quantity;
+
+  req.product = product;
+  req.orderPrice = orderPrice;
+  return next();
+});
+
+export const applyCoupon = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const { couponCode } = req.body;
 
   //=============================== couponValidation ===================================
   if (couponCode) {
@@ -38,31 +58,29 @@ export const add_order = asyncHandler(async (req, res, next) => {
     }
     req.coupon = isCouponValid.coupon;
   }
-  //==================================== products ====================================
-  let products = [];
-  products.push({
-    title: product.title,
-    desc: product.desc,
-    productId: product._id,
-    quantity: quantity,
-    price: product.priceAfterDiscount,
-    finalPrice: product.priceAfterDiscount * quantity,
-  });
-  let subTotal = 0;
-  subTotal = product.priceAfterDiscount * quantity;
+  return next();
+});
 
-  //=================================== paidAmount && req.coupon ==========================================
-  if (req.coupon?.isFixedAmount && subTotal < req.coupon?.couponAmount) {
+export const makeOrder = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const product = req.product;
+  const coupon = req.coupon;
+  const orderPrice = req.orderPrice;
+  const { quantity, address, phoneNumbers, paymentMethod } = req.body;
+
+  //=================================== paidAmount && coupon ==========================================
+  if (coupon?.isFixedAmount && orderPrice < coupon?.couponAmount) {
     return next(new Error("invalid Coupon Amount", { cause: 400 }));
   }
 
+  // apply coupn in payment
   let paidAmount = 0;
-  if (req.coupon?.isPercentage) {
-    paidAmount = subTotal * (1 - (req.coupon.couponAmount || 0) / 100);
-  } else if (req.coupon?.isFixedAmount) {
-    paidAmount = subTotal - req.coupon.couponAmount;
+  if (coupon?.isPercentage) {
+    paidAmount = orderPrice * (1 - (req.coupon.couponAmount || 0) / 100);
+  } else if (coupon?.isFixedAmount) {
+    paidAmount = orderPrice - req.coupon.couponAmount;
   } else {
-    paidAmount = subTotal;
+    paidAmount = orderPrice;
   }
 
   //================================== orderStatus =======================================
@@ -72,30 +90,43 @@ export const add_order = asyncHandler(async (req, res, next) => {
   } else {
     orderStatus = "pending";
   }
+
+  const products = [{ productId: product._id, quantity: quantity }];
+  paidAmount = Math.round(paidAmount * 100) / 100;
   //=================================== orderOb =====================================
-  const orderOb = {
-    userId: req.user._id,
+
+  const orderOb = new orderModel({
+    userId: userId,
     products: products,
-    subTotal: subTotal,
-    couponId: req.coupon?._id,
+    subTotal: orderPrice,
+    couponId: coupon._id,
     paidAmount: paidAmount,
     paymentMethod,
     orderStatus: orderStatus,
     address: address,
     phoneNumbers: [phoneNumbers],
-  };
+  });
 
-  const order = await orderModel.create(orderOb);
+  const order = await orderOb.save();
 
   if (!order) {
-    return next(new Error("failed to create order", { cause: 400 }));
+    return next(new Error("failed to create order", { cause: 500 }));
   }
 
+  req.order = order;
+  return next();
+});
+
+export const paymentMethod = asyncHandler(async (req, res, next) => {
+  const order = req.order;
+  const coupon = req.coupon;
+  const { quantity } = req.body;
+
   let paymentData;
-  if (orderOb.paymentMethod == "card") {
+  if (order.paymentMethod == "card") {
     let stripeCoupon;
     if (req?.coupon) {
-      stripeCoupon = await stripeCoupons(req?.coupon);
+      stripeCoupon = await stripeCoupons(coupon);
     }
 
     const token = generateToken({
@@ -103,33 +134,27 @@ export const add_order = asyncHandler(async (req, res, next) => {
       expiresIn: 60 * 60,
       signature: process.env.DEFAULT_SIGNATURE,
     });
+
     var frontEndURL = req.headers.referer;
-    console.log(frontEndURL);
+
+    const product = {
+      title: req.product.title,
+      desc: req.product.desc,
+      priceAfterDiscount: req.product.priceAfterDiscount,
+      quantity: quantity,
+    };
+
     paymentData = await paymentFunction({
-      payment_method_types: ["card"],
-      mode: "payment",
-      // discounts: stripeCoupon ? { coupon: stripeCoupon.id } : null,
-      customer_email: req.user.email,
-      metadata: { orderId: order._id.toString() },
-      success_url: `${req.protocol}://${req.headers.host}/order/successUrl?key=${token}`,
-      cancel_url: `${req.protocol}://${req.headers.host}/order/cancelUrl?key=${token}`,
-      line_items: products.map((prod) => {
-        return {
-          price_data: {
-            currency: "EGP",
-            unit_amount: prod.price * 100,
-            product_data: {
-              name: prod.title,
-              description: prod.desc,
-            },
-          },
-          quantity: prod.quantity,
-        };
-      }),
+      user: req.user,
+      products: [product],
+      order: order,
+      discounts: stripeCoupon ? [{ coupon: stripeCoupon.id }] : [],
+      success_url: `${req.protocol}://${req.headers.host}/order/success_url?key=${token}`,
+      cancel_url: `${req.protocol}://${req.headers.host}/order/cancel_url?key=${token}`,
     });
   }
 
-  product.stock -= parseInt(quantity);
+  req.product.stock -= parseInt(quantity);
 
   if (req.coupon) {
     for (const userCoupon of req.coupon.couponAssginedToUsers) {
@@ -138,7 +163,7 @@ export const add_order = asyncHandler(async (req, res, next) => {
       }
     }
 
-    await Promise.all([req.coupon.save(), product.save()]);
+    await Promise.all([req.coupon.save(), req.product.save()]);
   }
   return res
     .status(200)
@@ -218,57 +243,128 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
 });
 
 export const success_url = asyncHandler(async (req, res, next) => {
-  const { token } = req.params;
-  const decode = verifyToken({ token: token });
+  const { key } = req.query;
+  const decode = verifyToken({ token: key });
   if (!decode?.orderId) {
     return next(new Error("Invalid token"), { cause: 400 });
   }
-  const order = await orderModel.findByIdAndUpdate(
-    {
-      _id: decode.orderId,
-      orderStatus: "pending",
-    },
-    { orderStatus: "confirmed" },
-    { new: true }
-  );
+  const order = await orderModel
+    .findByIdAndUpdate(
+      {
+        _id: decode.orderId,
+        orderStatus: "pending",
+      },
+      { orderStatus: "confirmed" },
+      { new: true, lean: true }
+    )
+    .select("-cancelledBy -updatedBy");
+
   if (!order) {
     return next(new Error("faild"));
   }
-  return res.json({ message: "done", order });
+  return res.json({ message: "order Updated successfully", order });
 });
 
 export const cancel_url = asyncHandler(async (req, res, next) => {
-  const { token } = req.params;
-  const decode = verifyToken({ token: token });
+  const { key } = req.query;
+  const decode = verifyToken({ token: key });
   if (!decode) {
     return next(new Error("Invalid token"), { cause: 400 });
   }
-  const order = await orderModel.findByIdAndUpdate(
-    {
-      _id: decode.orderId,
-      orderStatus: "pending",
-    },
-    { orderStatus: "canceled" },
-    { new: true }
-  );
-  for (const product of order.products) {
-    await productModel.findByIdAndUpdate(
-      { _id: product.productId },
-      { $inc: { stock: parseInt(product.quantity) } }
-    );
-  }
-  if (order?.couponId) {
-    const coupon = await couponModel.findById({ _id: order.couponId });
-    for (const user of coupon.couponAssginedToUsers) {
-      if (user.userId.toString() == order.userId.toString()) {
-        user.usageCount -= 1;
-      }
-    }
-    await coupon.save();
-  }
 
-  if (!order) {
-    return next(new Error("error fiald"));
+  try {
+    const order = await orderModel.findByIdAndDelete(
+      {
+        _id: decode.orderId,
+        orderStatus: "pending",
+      },
+      { new: true }
+    );
+
+    if (!order) {
+      return next(new Error("Error occurred while deleting order"));
+    }
+
+    // Array to store promises for updating products
+    const productUpdatePromises = [];
+
+    // Update products stock
+    for (const product of order.products) {
+      const updateProductPromise = productModel.findByIdAndUpdate(
+        { _id: product.productId },
+        { $inc: { stock: parseInt(product.quantity) } }
+      );
+      productUpdatePromises.push(updateProductPromise);
+    }
+
+    // Update coupons if applicable
+    if (order.couponId) {
+      const coupon = await couponModel.findById(order.couponId);
+
+      // Array to store promises for updating coupons
+      const couponUpdatePromises = [];
+
+      for (const user of coupon.couponAssginedToUsers) {
+        if (user.userId.toString() === order.userId.toString()) {
+          user.usageCount -= 1;
+          const updateCouponPromise = coupon.save();
+          couponUpdatePromises.push(updateCouponPromise);
+          break; // No need to continue once the user is found
+        }
+      }
+
+      // Wait for all coupon updates to complete
+      await Promise.all(couponUpdatePromises);
+    }
+
+    // Wait for all product updates to complete
+    await Promise.all(productUpdatePromises);
+
+    return res.json({ message: "Order cancellation successful", order });
+  } catch (error) {
+    return next(new Error("Error occurred while processing cancellation"));
   }
-  return res.json({ message: "done", order, coupon });
+});
+
+export const searchOrders = asyncHandler(async (req, res, next) => {
+  const allowFields = [
+    "userId",
+    "products",
+    "subTotal",
+    "couponId",
+    "paidAmount",
+    "address",
+    "phoneNumbers",
+    "orderStatus",
+    "paymentMethod",
+  ];
+  const userOptions = {
+    path: "userId",
+    select: "firstName lastName userName email address gender status role",
+  };
+
+  const couponsOptions = {
+    path: "couponId",
+    select:
+      "couponCode couponAmount isPercentage isFixedAmount fromDate toDate couponStatus",
+  };
+  const searchFieldsText = ["address", "orderStatus", "paymentMethod"];
+  const searchFieldsIds = ["_id", "userId"];
+  const apiFeatureInstance = new ApiFeature(
+    orderModel.find().lean(),
+    req.query,
+    allowFields
+  )
+    .pagination()
+    .sort()
+    .select()
+    .filter()
+    .search({ searchFieldsIds, searchFieldsText })
+    .populate(userOptions)
+    .populate(couponsOptions);
+  const orders = await apiFeatureInstance.MongoseQuery;
+
+  return res
+    .status(200)
+    .json({ message: "Done", success: true, result: orders });
 });

@@ -1,55 +1,66 @@
 import Stripe from "stripe";
 
+const saintizePayment = (paymentData) => {
+  return {
+    success_url: paymentData.success_url,
+    ui_mode: paymentData.ui_mode,
+    cancel_url: paymentData.cancel_url,
+    total_details: paymentData.total_details,
+    url: paymentData.url,
+    id: paymentData.id,
+    customer_email: paymentData.customer_email,
+    metadata: paymentData.metadata,
+  };
+};
+
 export const paymentFunction = async ({
-  payment_method_types,
-  mode,
-  metadata,
-  customer_email,
+  user,
+  products,
+  order,
   success_url,
   cancel_url,
   discounts,
-  line_items,
 }) => {
   const stripe = new Stripe(process.env.STRIPE_KEY);
 
   const paymentData = await stripe.checkout.sessions.create({
-    payment_method_types,
-    mode,
-    metadata,
-    customer_email,
+    payment_method_types: ["card"],
+    mode: "payment",
+    metadata: { orderId: order._id.toString() },
+    customer_email: user.email,
     success_url,
     cancel_url,
     discounts,
-    line_items,
+    line_items: products.map((product) => {
+      return {
+        price_data: {
+          currency: "EGP",
+          unit_amount: product.priceAfterDiscount * 100,
+          product_data: {
+            name: product.title,
+            description: product.desc,
+          },
+        },
+        quantity: product.quantity,
+      };
+    }),
   });
-  return paymentData;
+  return saintizePayment(paymentData);
 };
-
-//  [
-//       {
-//         price_data: {
-//           currency,
-//           unit_amount,
-//           product_data: { name, description, images },
-//         },
-//         quantity,
-
-//       },
-//     ],
 
 export const stripeCoupons = async (coupon) => {
   const stripe = new Stripe(process.env.STRIPE_KEY);
 
   let stripeCoupon;
 
-  if (coupon?.isPercentage) {
+  if (coupon?.isFixedAmount) {
     stripeCoupon = await stripe.coupons.create({
       amount_off: coupon.couponAmount,
       currency: "EGP",
     });
   }
 
-  if (coupon?.isFixedAmount) {
+  if (coupon?.isPercentage) {
     stripeCoupon = await stripe.coupons.create({
       percent_off: coupon.couponAmount,
     });

@@ -14,21 +14,9 @@ const orderSchema = new Schema(
           ref: "product",
         },
         quantity: {
-          type: String,
+          type: Number,
           required: true,
           default: 1,
-        },
-        title: {
-          type: String,
-          required: true,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
-        finalPrice: {
-          type: Number,
-          required: true,
         },
       },
     ],
