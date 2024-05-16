@@ -21,6 +21,14 @@ export const paymentFunction = async ({
   cancel_url,
   discounts,
 }) => {
+  console.log({
+    user,
+    products,
+    order,
+    success_url,
+    cancel_url,
+    discounts,
+  });
   const stripe = new Stripe(process.env.STRIPE_KEY);
 
   const paymentData = await stripe.checkout.sessions.create({
@@ -47,7 +55,6 @@ export const paymentFunction = async ({
   });
   return saintizePayment(paymentData);
 };
-
 export const stripeCoupons = async (coupon) => {
   const stripe = new Stripe(process.env.STRIPE_KEY);
 
