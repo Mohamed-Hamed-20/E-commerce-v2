@@ -240,7 +240,7 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
     userId,
     products,
     subTotal,
-    couponId: req.coupon._id,
+    couponId: req?.coupon?._id,
     paidAmount,
     orderStatus: orderStatus,
     address,
