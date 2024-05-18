@@ -136,7 +136,6 @@ export const paymentMethod = asyncHandler(async (req, res, next) => {
     });
 
     var frontEndURL = req.headers.referer;
-    console.log(frontEndURL);
 
     const product = {
       title: req.product.title,
@@ -150,8 +149,8 @@ export const paymentMethod = asyncHandler(async (req, res, next) => {
       products: [product],
       order: order,
       discounts: stripeCoupon ? [{ coupon: stripeCoupon.id }] : [],
-      success_url: `${frontEndURL}//key=${token}`,
-      cancel_url: `${frontEndURL}/key=${token}`,
+      success_url: `${frontEndURL}order/success_url?key=${token}`,
+      cancel_url: `${frontEndURL}order/cancel_url?key=${token}`,
     });
   }
 
@@ -274,8 +273,8 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
       products: products,
       order: order,
       discounts: stripeCoupon ? [{ coupon: stripeCoupon.id }] : [],
-      success_url: `${frontEndURL}/order/success_url?key=${token}`,
-      cancel_url: `${frontEndURL}/order/cancel_url?key=${token}`,
+      success_url: `${req.protocol}://${req.headers.host}/order/success_url?key=${token}`,
+      cancel_url: `${req.protocol}://${req.headers.host}/order/cancel_url?key=${token}`,
     });
   }
 
