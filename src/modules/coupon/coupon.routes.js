@@ -16,6 +16,15 @@ router.put(
   isAuth([roles.admin, roles.super]),
   co_c.updateCoupon
 );
+
+router.delete(
+  "/delete",
+  valid(vs.deleteCoupon),
+  isAuth([roles.admin, roles.super]),
+  co_c.deleteCoupon
+);
+
+
 router.get(
   "/getallcopuons",
   isAuth([roles.admin, roles.super]),

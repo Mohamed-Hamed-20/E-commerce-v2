@@ -62,16 +62,6 @@ export const updateCoupon = asyncHandler(async (req, res, next) => {
     couponAssginedToUsers,
   } = req.body;
 
-  console.log({
-    couponCode,
-    couponAmount,
-    fromDate,
-    toDate,
-    isPercentage,
-    isFixedAmount,
-    couponAssginedToUsers,
-  });
-
   if (isFixedAmount == isPercentage) {
     return next(
       new Error("please select one of them", {
@@ -132,4 +122,20 @@ export const updateCoupon = asyncHandler(async (req, res, next) => {
     message: "coupon updated successfully",
     coupon: update,
   });
+});
+
+export const deleteCoupon = asyncHandler(async (req, res, next) => {
+  const { couponId } = req.query;
+
+  const coupon = await couponModel.findByIdAndDelete(couponId);
+
+  if (!coupon) {
+    return next(
+      new Error("couponId Not found", {
+        cause: 400,
+      })
+    );
+  }
+
+  return res.json({ message: "delete coupon successfully" });
 });

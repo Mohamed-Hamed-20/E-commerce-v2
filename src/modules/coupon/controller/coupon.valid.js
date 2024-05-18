@@ -56,3 +56,11 @@ export const updateCoupon = {
     })
     .required(),
 };
+
+export const deleteCoupon = {
+  query: joi
+    .object({
+      couponId: generalFields._id.required(),
+    })
+    .required(),
+};
