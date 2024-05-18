@@ -1,14 +1,20 @@
 import { Router } from "express";
 import * as co_c from "./controller/coupon.js";
 import { valid } from "../../middleware/validation.js";
-import { createCouponSchema } from "./controller/coupon.valid.js";
+import * as vs from "./controller/coupon.valid.js";
 import { isAuth, roles } from "../../middleware/authentication.js";
 const router = Router();
 router.post(
   "/createCoupon",
   isAuth([roles.admin, roles.super]),
-  valid(createCouponSchema),
+  valid(vs.createCouponSchema),
   co_c.createCoupon
+);
+router.put(
+  "/update",
+  valid(vs.updateCoupon),
+  isAuth([roles.admin, roles.super]),
+  co_c.updateCoupon
 );
 router.get(
   "/getallcopuons",

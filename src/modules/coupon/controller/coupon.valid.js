@@ -16,14 +16,43 @@ export const createCouponSchema = {
       couponAssginedToUsers: joi
         .array()
         .items(
-          joi.object(
-            {
-              userId: generalFields._id.required(),
-              maxUsage: joi.number().required(),
-            },
-          )
+          joi.object({
+            userId: generalFields._id.required(),
+            maxUsage: joi.number().required(),
+          })
         )
         .required(),
+    })
+    .required(),
+};
+
+export const updateCoupon = {
+  body: joi
+    .object({
+      couponCode: joi.string().min(4).max(10).optional(),
+      couponAmount: joi.number().optional(),
+      isPercentage: joi.boolean(),
+      isFixedAmount: joi.boolean(),
+      fromDate: joi
+        .date()
+        .greater(Date.now() - 24 * 60 * 60 * 1000)
+        .optional(),
+      toDate: joi.date().greater(joi.ref("fromDate")).optional(),
+      couponAssginedToUsers: joi
+        .array()
+        .items(
+          joi.object({
+            userId: generalFields._id.required(),
+            maxUsage: joi.number().required(),
+          })
+        )
+        .optional(),
+    })
+    .required(),
+
+  query: joi
+    .object({
+      couponId: generalFields._id.required(),
     })
     .required(),
 };
