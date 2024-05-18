@@ -62,3 +62,9 @@ export const resetpassword = {
     .required()
     .messages(customMessages),
 };
+
+export const deleteUser = {
+  query: joi.object({
+    userId: generalFields._id.required(),
+  }),
+};

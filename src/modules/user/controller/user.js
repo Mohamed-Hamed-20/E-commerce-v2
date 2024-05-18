@@ -247,4 +247,19 @@ export const searchusers = asyncHandler(async (req, res, next) => {
     .status(200)
     .json({ message: "Done", success: true, result: users });
 });
+
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const userId = req.query.userId;
+  const userdelete = await usermodel.findOneAndDelete({
+    _id: userId,
+    role: roles.user,
+  });
+
+  if (!userdelete) {
+    return next(new Error("user not found or not allow to delete this user"));
+  }
+
+  // response
+  return res.json({ message: "deleted successfully" });
+});
 export const ___ = asyncHandler(async (req, res, next) => {});

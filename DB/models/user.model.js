@@ -1,4 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
+import cardModel from "./card.model.js";
+import orderModel from "./order.model.js";
+import couponModel from "./coupon.model.js";
 
 const userSchema = new Schema(
   {
@@ -78,5 +81,31 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userSchema.post("findOneAndDelete", async (doc) => {
+  try {
+    if (doc) {
+      const userId = doc?._id;
+      const cardpromise = cardModel.findOneAndDelete({ userId: userId }).lean();
+      const orderspromise = orderModel.deleteMany({ userId: userId }).lean();
+      const updatecouponspromise = couponModel
+        .updateMany(
+          {
+            "couponAssginedToUsers.userId": userId,
+          },
+          { $pull: { couponAssginedToUsers: { userId: userId } } }
+        )
+        .lean();
+
+      const [card, orders, updatecoupons] = await Promise.all([
+        cardpromise,
+        orderspromise,
+        updatecouponspromise,
+      ]);
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
 
 export const usermodel = mongoose.models.usermodel || model("user", userSchema);
