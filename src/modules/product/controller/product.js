@@ -11,6 +11,7 @@ import {
   s3Client,
 } from "../../../utils/aws.s3.js";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
+import { Types } from "mongoose";
 const nanoid = customAlphabet("abcdefghigklmnopqwert1234567890", 7);
 
 export const createProduct = asyncHandler(async (req, res, next) => {
@@ -225,6 +226,16 @@ export const deleteImgfromProduct = asyncHandler(async (req, res, next) => {
 });
 
 export const getProduct = asyncHandler(async (req, res, next) => {
+  const { categoryId } = req.query;
+  const filters = {};
+
+  if (categoryId) {
+    if (!Types.ObjectId.isValid(categoryId)) {
+      return next(new Error("invalid categoryId", { cause: 400 }));
+    }
+    filters.categoryId = categoryId;
+  }
+
   const allowFields = [
     "title",
     "slug",
@@ -246,7 +257,7 @@ export const getProduct = asyncHandler(async (req, res, next) => {
   const searchFieldsText = ["title", "desc", "slug"];
   const searchFieldsIds = ["categoryId", "_id", "categoryId._id"];
   const apiFeatureInstance = new ApiFeature(
-    productModel.find({}),
+    productModel.find(filters).lean(),
     req.query,
     allowFields
   )
