@@ -1,6 +1,8 @@
+import { Types } from "mongoose";
 import couponModel from "../../../../DB/models/coupon.model.js";
 import { usermodel } from "../../../../DB/models/user.model.js";
 import { asyncHandler } from "../../../utils/errorHandling.js";
+import { ApiFeature } from "../../../utils/apiFeature.js";
 
 export const createCoupon = asyncHandler(async (req, res, next) => {
   const {
@@ -45,9 +47,58 @@ export const createCoupon = asyncHandler(async (req, res, next) => {
   const coupon = await couponModel.create(couponobject);
   return res.status(201).json({ message: "done", result: coupon });
 });
+
+// Controller Function
 export const getCoupons = asyncHandler(async (req, res, next) => {
-  const coupons = await couponModel.find();
-  return res.status(200).json({ message: "done", result: coupons });
+  const filters = {};
+
+  // Allowed fields for the API
+  const allowFields = [
+    "couponCode",
+    "couponAmount",
+    "isPercentage",
+    "isFixedAmount",
+    "fromDate",
+    "toDate",
+    "createdBy",
+    "couponStatus",
+    "couponAssginedToUsers",
+    // "couponAssginedToUsers.userId",
+  ];
+
+  // Populate options
+  const optionsUser = {
+    path: "couponAssginedToUsers.userId",
+    select: "userName email address gender status",
+  };
+
+  // Search fields
+  const searchFieldsText = ["couponCode"];
+  const searchFieldsIds = ["_id"];
+
+  // Create an instance of ApiFeature
+  const apiFeatureInstance = new ApiFeature(
+    couponModel.find(filters).lean(),
+    req.query,
+    allowFields
+  )
+    .pagination()
+    .sort()
+    .select()
+    .filter()
+    .search({ searchFieldsIds, searchFieldsText })
+    .populate(optionsUser);
+
+  // Execute the query
+  const coupons = await apiFeatureInstance.MongoseQuery;
+
+  // Debugging: Log the result
+  console.log("Coupons:", coupons);
+
+  // Respond with the result
+  return res
+    .status(200)
+    .json({ message: "Done", success: true, result: coupons });
 });
 
 export const updateCoupon = asyncHandler(async (req, res, next) => {

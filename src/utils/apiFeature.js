@@ -15,13 +15,14 @@ export class ApiFeature {
     this.MongoseQuery.limit(limit).skip(skip);
     return this;
   }
+
   //sort
   sort() {
     const { sort } = this.QueryData;
     if (sort) {
-      const sortFields = sort.split(",").filter((field) => {
-        return this.allowFields.includes(field);
-      });
+      const sortFields = sort
+        .split(",")
+        .filter((field) => this.allowFields.includes(field));
       this.MongoseQuery.sort(sortFields.join(" "));
     }
     return this;
@@ -31,19 +32,20 @@ export class ApiFeature {
   select() {
     const { select } = this.QueryData;
     if (select) {
-      const selectedFields = select.split(",").filter((field) => {
-        return this.allowFields.includes(field);
-      });
-      //for if not any field right
+      const selectedFields = select
+        .split(",")
+        .filter((field) => this.allowFields.includes(field));
       selectedFields.length > 0
         ? this.MongoseQuery.select(selectedFields.join(" "))
         : this.MongoseQuery.select(this.allowFields.join(" "));
     } else {
+      
       this.MongoseQuery.select(this.allowFields.join(" "));
     }
     return this;
   }
 
+  //populate
   populate(options) {
     if (!this.QueryData.select?.includes(`${options.path}`)) {
       return this;
@@ -64,16 +66,13 @@ export class ApiFeature {
         const searchQuery = {
           $or: searchFieldsIds.map((field) => ({ [field]: search })),
         };
-        console.log(JSON.stringify(searchQuery, null, 2));
         this.MongoseQuery.find(searchQuery);
       } else {
-        console.log(search);
         const searchQuery = {
-          $or: searchFieldsText.map((field) => {
-            return { [field]: { $regex: new RegExp(search.trim(), "i") } };
-          }),
+          $or: searchFieldsText.map((field) => ({
+            [field]: { $regex: new RegExp(search.trim(), "i") },
+          })),
         };
-        console.log(JSON.stringify(searchQuery, null, 2));
         this.MongoseQuery.find(searchQuery);
       }
     }
@@ -93,9 +92,7 @@ export class ApiFeature {
     const query = JSON.parse(
       JSON.stringify(querystring).replace(
         /gt|lt|gte|lte|regex|in|nin|neq|eq/g,
-        (match) => {
-          return `$${match}`;
-        }
+        (match) => `$${match}`
       )
     );
     this.MongoseQuery.find(query);

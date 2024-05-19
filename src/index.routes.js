@@ -64,9 +64,11 @@ export const bootstrap = (app, express) => {
 
   //Globale error handling
   app.use(GlobalErrorHandling);
+
   app.all("/", async (req, res) => {
     return res.send(await hellowpage());
   });
+
   //API bad
   app.all("*", (req, res) => res.send("invalid router link or method!"));
   const port = parseInt(process.env.PORT) || 7102;

@@ -10,6 +10,7 @@ router.post(
   valid(vs.createCouponSchema),
   co_c.createCoupon
 );
+
 router.put(
   "/update",
   valid(vs.updateCoupon),

@@ -3,6 +3,5 @@ export const pagenation = ({ page = 1, size = 2 }) => {
   if (size < 1 || size > 20) size = 2;
   const limit = parseInt(size);
   const skip = parseInt((page - 1) * size);
-  console.log(limit, skip);
   return { limit, skip };
 };

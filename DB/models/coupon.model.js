@@ -50,6 +50,7 @@ const couponschema = new Schema(
         userId: {
           type: Types.ObjectId,
           required: true,
+          ref: "user",
         },
         maxUsage: {
           type: Number,
