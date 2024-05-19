@@ -186,6 +186,10 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
     return next(new Error("invalid card or not to user", { cause: 400 }));
   }
 
+  if (card.products.length <= 0) {
+    return next(new Error("you dont have product to buy", { cause: 400 }));
+  }
+
   //============================ check coupon Code ===============================
   if (couponCode) {
     const isCouponValid = await couponValidation(couponCode, userId);
@@ -273,8 +277,8 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
       products: products,
       order: order,
       discounts: stripeCoupon ? [{ coupon: stripeCoupon.id }] : [],
-      success_url: `${req.protocol}://${req.headers.host}/order/success_url?key=${token}`,
-      cancel_url: `${req.protocol}://${req.headers.host}/order/cancel_url?key=${token}`,
+      success_url: `${frontEndURL}/order/success_url?key=${token}`,
+      cancel_url: `${frontEndURL}/order/cancel_url?key=${token}`,
     });
   }
 
@@ -292,10 +296,17 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
         userCoupon.usageCount += 1;
       }
     }
-
-    const [coupon, product] = await Promise.all([req.coupon.save(), promises]);
-    console.log({ coupon, product });
   }
+
+  card.products = [];
+  card.subTotal = 0;
+
+  const [coupon, product, carddelete] = await Promise.all([
+    req?.coupon?.save(),
+    promises,
+    card.save(),
+  ]);
+
   return res
     .status(201)
     .json({ message: "done", order: order, payment: paymentData });
