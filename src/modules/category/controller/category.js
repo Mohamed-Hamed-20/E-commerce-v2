@@ -6,6 +6,8 @@ import cloudinary from "../../../utils/coludinaryConfigrations.js";
 import SubCategoryModel from "../../../../DB/models/subcategory.model.js";
 import { pagenation } from "../../../utils/pagination.js";
 import brandModel from "../../../../DB/models/brand.model.js";
+import productModel from "../../../../DB/models/product.model.js";
+import cardModel from "../../../../DB/models/card.model.js";
 const generate_Nanoid = customAlphabet(
   "ABCDEFGMOH123456789abcdefghigklmnopqzw",
   7
@@ -116,17 +118,17 @@ export const UpdateCategory = asyncHandler(async (req, res, next) => {
 // =================================delete caategory ================================================
 export const deleteCategory = asyncHandler(async (req, res, next) => {
   const { categoryId } = req.query;
-  const category = await categoryModel.findByIdAndDelete(categoryId);
+  const category = await categoryModel.findOneAndDelete({ _id: categoryId });
   if (!category) {
     return next(new Error("CategoryId not found", { cause: 404 }));
   }
-  await SubCategoryModel.deleteMany({ categoryId: categoryId });
-  await brandModel.deleteMany({ categoryId: categoryId });
+
   if (category.Images) {
-    const folder = `${process.env.folder_name}/category/${category.customId}`;
+    const folder = `Ecommerce/category/`;
     await cloudinary.api.delete_resources_by_prefix(folder);
     await cloudinary.api.delete_folder(folder);
   }
+
   return res.status(200).json({ message: "Done", category: category });
 });
 

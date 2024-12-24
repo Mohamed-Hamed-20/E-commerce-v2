@@ -1,4 +1,5 @@
 import { Schema, Types, model } from "mongoose";
+import cardModel from "./card.model.js";
 
 const productSchema = new Schema(
   {
@@ -77,6 +78,22 @@ const productSchema = new Schema(
   },
   { timestamps: true }
 );
+
+productSchema.post("findOneAndDelete", function (doc) {
+  if (doc) {
+    console.log(doc);
+    setImmediate(async () => {
+      try {
+        await cardModel.updateMany(
+          { "products.productId": doc._id },
+          { $pull: { products: { productId: doc._id } } }
+        );
+      } catch (error) {
+        console.error("Error updating cardModel:", error);
+      }
+    });
+  }
+});
 
 const productModel = model("product", productSchema);
 

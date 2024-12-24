@@ -1,4 +1,5 @@
 import { Schema, Types, model } from "mongoose";
+import productModel from "./product.model.js";
 
 const categorySchema = new Schema(
   {
@@ -40,5 +41,19 @@ const categorySchema = new Schema(
 );
 
 const categoryModel = model("category", categorySchema);
+
+categorySchema.post("findOneAndDelete", async (doc) => {
+  if (doc) {
+    try {
+      console.log(doc);
+      await productModel.updateMany(
+        { categoryId: doc._id },
+        { $pull: { categoryId: doc._id } }
+      );
+    } catch (error) {
+      console.error("Error updating productModel:", error);
+    }
+  }
+});
 
 export default categoryModel;
