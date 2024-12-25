@@ -286,10 +286,21 @@ export const searchByCategoryId = asyncHandler(async (req, res, next) => {
   const { categoryId } = req.params;
   console.log(categoryId);
 
-  const product = await productModel.find({ categoryId });
+  const products = await productModel
+    .find({ categoryId })
+    .populate("categoryId");
+
+  for (const product of products) {
+    if (product.Images && product?.Images?.length > 0) {
+      for (const Image of product.Images) {
+        const { url } = await GetsingleImg({ ImgName: Image.public_id });
+        Image.secure_url = url;
+      }
+    }
+  }
   return res
     .status(200)
-    .json({ message: "Done", success: true, result: product });
+    .json({ message: "Done", success: true, result: products });
 });
 
 export const getsingleProduct = asyncHandler(async (req, res, next) => {
