@@ -4,7 +4,7 @@ import { isValidObject } from "../../subcategories/controller/Subcategory.valid.
 export const createSchemaCategory = {
   body: joi
     .object({
-      name: joi.string().min(4).max(25),
+      name: joi.string().min(4).max(25).required(),
     })
     .required()
     .optional({ presence: "required" }),

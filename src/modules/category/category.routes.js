@@ -30,6 +30,7 @@ router.delete(
   valid(schemaV.deleteSchemaCategory),
   cc.deleteCategory
 );
+
 router.get("/Get_all_Category_with_SubC", cc.Get_all_Category_with_SubC);
 router.get("/searchCategory", cc.searchCategory);
 
