@@ -284,11 +284,9 @@ export const getProduct = asyncHandler(async (req, res, next) => {
 
 export const searchByCategoryId = asyncHandler(async (req, res, next) => {
   const { categoryId } = req.params;
-  let filters = {};
-  if (categoryId) filters.categoryId;
-
   console.log(categoryId);
-  const product = await productModel.find(filters);
+
+  const product = await productModel.find({ categoryId });
   return res
     .status(200)
     .json({ message: "Done", success: true, result: product });
