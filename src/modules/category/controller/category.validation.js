@@ -16,7 +16,13 @@ export const UpdateSchemaCategory = {
       name: joi.string().min(4).max(13).optional(),
     })
     .required(),
+  query: joi
+    .object({
+      categoryId: joi.custom(isValidObject).required(),
+    })
+    .required(),
 };
+
 export const deleteSchemaCategory = {
   query: joi
     .object({
