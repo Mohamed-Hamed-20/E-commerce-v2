@@ -159,13 +159,16 @@ export const Get_all_Category_with_SubC = asyncHandler(
   }
 );
 export const searchCategory = asyncHandler(async (req, res, next) => {
-  const { searchKey, page, size } = req.query;
+  const { searchKey = "", page, size } = req.query;
+  console.log({ page, size, searchKey });
+
   const { limit, skip } = pagenation({ page, size });
+
+  const query = searchKey ? { name: { $regex: searchKey, $options: "i" } } : {};
   const categories = await categoryModel
-    .find({
-      $or: [{ name: { $regex: searchKey, $regex: "i" } }],
-    })
+    .find(query)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .select("Images _id name");
   return res.json({ messages: "Done", results: categories });
 });

@@ -5,7 +5,7 @@ import { allowedExtensions } from "../../utils/allowedExtensions.js";
 import { valid } from "../../middleware/validation.js";
 import * as validschema from "./controller/product.vaild.schema.js";
 import { multerCloud } from "../../utils/aws.s3.js";
-const router = Router({ mergeParams: true });
+const   router = Router({ mergeParams: true });
 
 router.post(
   "/createProduct",
