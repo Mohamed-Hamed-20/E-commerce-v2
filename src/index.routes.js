@@ -46,7 +46,7 @@ export const bootstrap = (app, express) => {
   // =====================================chk rate limiter==================================================
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 50, // Limit each IP to 100 requests per `window`
+    limit: 300, // Limit each IP to 100 requests per `window`
     standardHeaders: "draft-7",
     legacyHeaders: false,
   });

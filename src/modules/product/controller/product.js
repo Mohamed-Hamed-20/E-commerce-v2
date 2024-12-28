@@ -12,6 +12,7 @@ import {
 } from "../../../utils/aws.s3.js";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import { Types } from "mongoose";
+import { pagenation } from "../../../utils/pagination.js";
 const nanoid = customAlphabet("abcdefghigklmnopqwert1234567890", 7);
 
 export const createProduct = asyncHandler(async (req, res, next) => {
@@ -283,12 +284,15 @@ export const getProduct = asyncHandler(async (req, res, next) => {
 });
 
 export const searchByCategoryId = asyncHandler(async (req, res, next) => {
-  const { categoryId } = req.params;
+  const { categoryId, page, size } = req.params;
   console.log(categoryId);
+  const { limit, skip } = pagenation({ size, page });
 
   const products = await productModel
     .find({ categoryId })
-    .populate("categoryId");
+    .populate("categoryId")
+    .limit(limit)
+    .skip(skip);
 
   for (const product of products) {
     if (product.Images && product?.Images?.length > 0) {
