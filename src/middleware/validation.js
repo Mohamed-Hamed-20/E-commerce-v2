@@ -61,7 +61,7 @@ export const generalFields = {
   email: joi.string().email({ tlds: { allow: ["com", "net", "org"] } }),
   password: joi
     .string()
-    .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)
+    .regex(/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[a-zA-Z]).{8,}$/)
     .messages({
       "string.pattern.base": "Password regex fail",
     }),
