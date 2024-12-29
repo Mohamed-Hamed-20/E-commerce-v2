@@ -43,22 +43,22 @@ export const register = asyncHandler(async (req, res, next) => {
     activationCode,
   });
 
-  // const link = `${req.protocol}://${req.headers.host}/user/confirmEmail/${activationCode}`;
-  // const isSend = await sendEmail({
-  //   to: email,
-  //   subject: "confirm Email",
-  //   html: `${SignUpTemplet(link)}`,
-  // });
-  // console.log(isSend);
-  // if (!isSend) {
-  //   return next(new Error("Something went wrong!", { cause: 500 }));
-  // }
+  const link = `${req.protocol}://${req.headers.host}/user/confirmEmail/${activationCode}`;
+  const isSend = await sendEmail({
+    to: email,
+    subject: "confirm Email",
+    html: `${SignUpTemplet(link)}`,
+  });
+  console.log(isSend);
+  if (!isSend) {
+    return next(new Error("Something went wrong!", { cause: 500 }));
+  }
 
   //safe document
   const done1 = await result.save();
-  // if (!done) {
-  //   return next(new Error("Something went wrong!", { cause: 500 }));
-  // }
+  if (!done1) {
+    return next(new Error("Something went wrong!", { cause: 500 }));
+  }
 
   return res
     .status(201)

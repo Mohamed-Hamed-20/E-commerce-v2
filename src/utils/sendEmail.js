@@ -19,5 +19,7 @@ export const sendEmail = async ({ to, subject, html, bcc } = {}) => {
     text: "Hello world?", // plain text body
     html, // html body
   });
-    return info.accepted.length <1 ?false :true
+  console.log(info);
+
+  return info.accepted.length < 1 ? false : true;
 };
