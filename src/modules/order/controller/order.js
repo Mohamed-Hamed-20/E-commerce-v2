@@ -270,7 +270,7 @@ export const cardToOrder = asyncHandler(async (req, res, next) => {
       signature: process.env.DEFAULT_SIGNATURE,
     });
 
-    var frontEndURL = req.headers.referer;
+    var frontEndURL = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
 
     paymentData = await paymentFunction({
       user: req.user,
