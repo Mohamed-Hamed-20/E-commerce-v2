@@ -418,35 +418,35 @@ export const searchOrders = asyncHandler(async (req, res, next) => {
         from: "users", // تأكد من أن هذا هو اسم مجموعة المستخدمين في قاعدة البيانات
         localField: "userId", // حقل الـ userId في الطلب
         foreignField: "_id", // حقل الـ _id في مجموعة المستخدمين
-        as: "userData", // سيتم تخزين البيانات المسترجعة هنا
+        as: "userId", // سيتم تخزين البيانات المسترجعة هنا
       },
     },
     {
-      $unwind: "$userData", // فك التفاف المصفوفة الناتجة من الـ lookup
+      $unwind: "$userId", // فك التفاف المصفوفة الناتجة من الـ lookup
     },
     {
       $lookup: {
         from: "products", // تأكد من أن هذا هو اسم مجموعة المنتجات في قاعدة البيانات
         localField: "products.productId", // حقل الـ productId في الطلب
         foreignField: "_id", // حقل الـ _id في مجموعة المنتجات
-        as: "productsData", // سيتم تخزين البيانات المسترجعة هنا
+        as: "products", // سيتم تخزين البيانات المسترجعة هنا
       },
     },
     {
       $project: {
-        "userData.firstName": 1,
-        "userData.lastName": 1,
-        "userData.userName": 1,
-        "userData.email": 1,
-        "userData.gender": 1,
-        "userData.role": 1,
-        "productsData.title": 1,
-        "productsData.desc": 1,
-        "productsData.price": 1,
-        "productsData.appliedDiscount": 1,
-        "productsData.priceAfterDiscount": 1,
-        "productsData.Images": 1,
-        "productsData.categoryId": 1,
+        "userId.firstName": 1,
+        "userId.lastName": 1,
+        "userId.userName": 1,
+        "userId.email": 1,
+        "userId.gender": 1,
+        "userId.role": 1,
+        "products.title": 1,
+        "products.desc": 1,
+        "products.price": 1,
+        "products.appliedDiscount": 1,
+        "products.priceAfterDiscount": 1,
+        "products.Images": 1,
+        "products.categoryId": 1,
         subTotal: 1,
         orderStatus: 1,
         paymentMethod: 1,
@@ -464,7 +464,7 @@ export const searchOrders = asyncHandler(async (req, res, next) => {
   }
 
   for (const order of orders) {
-    for (const product of order.productsData) {
+    for (const product of order.products) {
       if (product.Images && product?.Images?.length > 0) {
         for (const Image of product.Images) {
           const { url } = await GetsingleImg({ ImgName: Image.public_id });
