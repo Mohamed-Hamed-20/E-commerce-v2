@@ -1,4 +1,4 @@
-export const SignUpTemplate = (link) => `<!DOCTYPE html>
+export const SignUpTemplet = (link) => `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
