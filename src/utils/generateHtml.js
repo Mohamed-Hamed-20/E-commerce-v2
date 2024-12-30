@@ -14,7 +14,7 @@ export const SignUpTemplet = (link) => `<!DOCTYPE html>
             <!-- Logo Section -->
             <tr>
               <td align="center" style="padding: 40px 20px 20px 20px;">
-                <img src="logo-high-resolution-logo-transparent.png" alt="Company Logo" width="200" style="display: block;" />
+                <img src="./logo-high-resolution-logo-transparent.png.jpg" alt="Company Logo" width="200" style="display: block;" />
               </td>
             </tr>
             
