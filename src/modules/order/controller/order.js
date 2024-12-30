@@ -8,6 +8,7 @@ import { generateToken, verifyToken } from "../../../utils/tokenFunctions.js";
 import couponModel from "../../../../DB/models/coupon.model.js";
 import { paymentFunction, stripeCoupons } from "../../../utils/payment.js";
 import { ApiFeature } from "../../../utils/apiFeature.js";
+import { GetsingleImg } from "../../../utils/aws.s3.js";
 
 export const validateOrder = asyncHandler(async (req, res, next) => {
   await Promise.all([
@@ -408,33 +409,70 @@ export const searchOrders = asyncHandler(async (req, res, next) => {
     "orderStatus",
     "paymentMethod",
   ];
-  const userOptions = {
-    path: "userId",
-    select: "firstName lastName userName email address gender status role",
-  };
 
-  const couponsOptions = {
-    path: "couponId",
-    select:
-      "couponCode couponAmount isPercentage isFixedAmount fromDate toDate couponStatus",
-  };
-  const searchFieldsText = ["address", "orderStatus", "paymentMethod"];
-  const searchFieldsIds = ["_id", "userId"];
-  const apiFeatureInstance = new ApiFeature(
-    orderModel.find().lean(),
-    req.query,
-    allowFields
-  )
-    .pagination()
-    .sort()
-    .select()
-    .filter()
-    .search({ searchFieldsIds, searchFieldsText })
-    .populate(userOptions)
-    .populate(couponsOptions);
-  const orders = await apiFeatureInstance.MongoseQuery;
+  // إعداد الـ pipeline للعمل مع aggregate
+  const pipeline = [
+    { $match: { orderStatus: "pending" } }, // تحديد حالة الطلب
+    {
+      $lookup: {
+        from: "users", // تأكد من أن هذا هو اسم مجموعة المستخدمين في قاعدة البيانات
+        localField: "userId", // حقل الـ userId في الطلب
+        foreignField: "_id", // حقل الـ _id في مجموعة المستخدمين
+        as: "userData", // سيتم تخزين البيانات المسترجعة هنا
+      },
+    },
+    {
+      $unwind: "$userData", // فك التفاف المصفوفة الناتجة من الـ lookup
+    },
+    {
+      $lookup: {
+        from: "products", // تأكد من أن هذا هو اسم مجموعة المنتجات في قاعدة البيانات
+        localField: "products.productId", // حقل الـ productId في الطلب
+        foreignField: "_id", // حقل الـ _id في مجموعة المنتجات
+        as: "productsData", // سيتم تخزين البيانات المسترجعة هنا
+      },
+    },
+    {
+      $project: {
+        "userData.firstName": 1,
+        "userData.lastName": 1,
+        "userData.userName": 1,
+        "userData.email": 1,
+        "userData.gender": 1,
+        "userData.role": 1,
+        "productsData.title": 1,
+        "productsData.desc": 1,
+        "productsData.price": 1,
+        "productsData.appliedDiscount": 1,
+        "productsData.priceAfterDiscount": 1,
+        "productsData.Images": 1,
+        "productsData.categoryId": 1,
+        subTotal: 1,
+        orderStatus: 1,
+        paymentMethod: 1,
+        address: 1,
+        phoneNumbers: 1,
+      },
+    },
+  ];
 
-  return res
-    .status(200)
-    .json({ message: "Done", success: true, result: orders });
+  // تنفيذ الـ aggregate
+  const orders = await orderModel.aggregate(pipeline);
+
+  if (!orders || orders.length === 0) {
+    return res.status(404).json({ message: "No orders found", success: false });
+  }
+
+  for (const order of orders) {
+    for (const product of order.productsData) {
+      if (product.Images && product?.Images?.length > 0) {
+        for (const Image of product.Images) {
+          const { url } = await GetsingleImg({ ImgName: Image.public_id });
+          Image.secure_url = url;
+        }
+      }
+    }
+  }
+
+  return res.status(200).json({ message: "Done", success: true, orders });
 });

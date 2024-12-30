@@ -32,24 +32,20 @@ export class ApiFeature {
   select() {
     const { select } = this.QueryData;
     if (select) {
-      const selectedFields = select
-        .split(",")
-        .filter((field) => this.allowFields.includes(field));
+      const selectedFields = select.split(",").filter((field) => {
+        return this.allowFields.includes(field);
+      });
+      //for if not any field right
       selectedFields.length > 0
         ? this.MongoseQuery.select(selectedFields.join(" "))
         : this.MongoseQuery.select(this.allowFields.join(" "));
     } else {
-      
       this.MongoseQuery.select(this.allowFields.join(" "));
     }
     return this;
   }
 
-  //populate
   populate(options) {
-    if (!this.QueryData.select?.includes(`${options.path}`)) {
-      return this;
-    }
     this.MongoseQuery.populate({
       path: options.path,
       select: options.select,
