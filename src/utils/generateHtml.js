@@ -1,87 +1,56 @@
-export const SignUpTemplet = (link) => `<!DOCTYPE html>
-                <html>
-                <head>
-                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></head>
-                <style type="text/css">
-                body{background-color: #88BDBF;margin: 0px;}
-                </style>
-                <body style="margin:0px;"> 
-                <table border="0" width="50%" style="margin:auto;padding:30px;background-color: #F3F3F3;border:1px solid #630E2B;">
-                <tr>
-                <td>
-                <table border="0" width="100%">
-                <tr>
-                <td>
-                <h1>
-                    <img width="100px" src="https://res.cloudinary.com/ddajommsw/image/upload/v1670702280/Group_35052_icaysu.png"/>
-                </h1>
-                </td>
-                <td>
-                <p style="text-align: right;"><a href="http://localhost:4200/#/" target="_blank" style="text-decoration: none;">View In Website</a></p>
-                </td>
-                </tr>
-                </table>
-                </td>
-                </tr>
-                <tr>
-                <td>
-                <table border="0" cellpadding="0" cellspacing="0" style="text-align:center;width:100%;background-color: #fff;">
-                <tr>
-                <td style="background-color:#630E2B;height:100px;font-size:50px;color:#fff;">
-                <img width="50px" height="50px" src="https://res.cloudinary.com/ddajommsw/image/upload/v1670703716/Screenshot_1100_yne3vo.png">
-                </td>
-                </tr>
-                <tr>
-                <td>
-                <h1 style="padding-top:25px; color:#630E2B">Email Confirmation</h1>
-                </td>
-                </tr>
-                <tr>
-                <td>
-                <p style="padding:0px 100px;">
+export const SignUpTemplate = (link) => `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Email Confirmation</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#f5f5f5; font-family: Arial, sans-serif;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <!-- Main Container -->
+      <tr>
+        <td align="center" bgcolor="#f5f5f5" style="padding: 20px 0;">
+          <table border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff; border: 2px solid #000000; border-radius: 10px;">
+            
+            <!-- Logo Section -->
+            <tr>
+              <td align="center" style="padding: 40px 20px 20px 20px;">
+                <img src="logo-high-resolution-logo-transparent.png" alt="Company Logo" width="200" style="display: block;" />
+              </td>
+            </tr>
+            
+            <!-- Confirmation Message -->
+            <tr>
+              <td align="center" style="padding: 20px 30px;">
+                <h2 style="color: #333333; font-size: 24px; margin: 0 0 20px 0;">Please Confirm Your Email Address</h2>
+                <p style="color: #555555; font-size: 16px; line-height: 24px; margin: 0 0 30px 0;">
+                  Thank you for registering with us! To complete your registration, please confirm your email address by clicking the button below.
                 </p>
-                </td>
-                </tr>
-                <tr>
-                <td>
-                <a href="${link}" style="margin:10px 0px 30px 0px;border-radius:4px;padding:10px 20px;border: 0;color:#fff;background-color:#630E2B; ">Verify Email address</a>
-                </td>
-                </tr>
-                </table>
-                </td>
-                </tr>
-                <tr>
-                <td>
-                <table border="0" width="100%" style="border-radius: 5px;text-align: center;">
-                <tr>
-                <td>
-                <h3 style="margin-top:10px; color:#000">Stay in touch</h3>
-                </td>
-                </tr>
-                <tr>
-                <td>
-                <div style="margin-top:20px;">
-
-                <a href="${process.env.facebookLink}" style="text-decoration: none;"><span class="twit" style="padding:10px 9px;color:#fff;border-radius:50%;">
-                <img src="https://res.cloudinary.com/ddajommsw/image/upload/v1670703402/Group35062_erj5dx.png" width="50px" hight="50px"></span></a>
-                
-                <a href="${process.env.instegram}" style="text-decoration: none;"><span class="twit" style="padding:10px 9px;color:#fff;border-radius:50%;">
-                <img src="https://res.cloudinary.com/ddajommsw/image/upload/v1670703402/Group35063_zottpo.png" width="50px" hight="50px"></span>
+                <!-- Confirmation Button -->
+                <a href="${link}" target="_blank" style="background-color: #000000; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 25px; font-size: 16px; display: inline-block; border: 2px solid #000000;">
+                  Confirm Email
                 </a>
-                
-                <a href="${process.env.twitterLink}" style="text-decoration: none;"><span class="twit" style="padding:10px 9px;;color:#fff;border-radius:50%;">
-                <img src="https://res.cloudinary.com/ddajommsw/image/upload/v1670703402/Group_35064_i8qtfd.png" width="50px" hight="50px"></span>
-                </a>
-
-                </div>
-                </td>
-                </tr>
-                </table>
-                </td>
-                </tr>
-                </table>
-                </body>
-                </html>`;
+              </td>
+            </tr>
+            
+            <!-- Footer Section -->
+            <tr>
+              <td align="center" style="padding: 20px 30px; background-color: #f9f9f9; border-top: 1px solid #e0e0e0; border-radius: 0 0 10px 10px;">
+                <p style="color: #888888; font-size: 12px; margin: 0;">
+                  If you did not create an account, no further action is required.
+                </p>
+                <p style="color: #888888; font-size: 12px; margin: 5px 0 0 0;">
+                  © ${new Date().getFullYear()} WOL All rights reserved.
+                </p>
+              </td>
+            </tr>
+            
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`;
 
 export const restpasswordTemplet = (code) => `<!DOCTYPE html>
 
