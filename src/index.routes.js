@@ -17,27 +17,10 @@ export const bootstrap = (app, express) => {
   connectDB();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  // app.use(bodyParser.urlencoded({ extended: true }));
-  // const allowlist = ["htttp://127.0.0.1:3000", "htttp://127.0.0.1:7000"];
-  // app.use((req, res, next) => {
-  //   console.log(req.headers("orgin"));
-  //   if (req.orginalUrl.includes("/user/confirmEmail")) {
-  //     res.setHeader("Access-Control-Allow-Origin", "*");
-  //     res.setHeader("Access-Control-Allow-Headers", "GET");
-  //     return next();
-  //   }
-  //   if (allowlist.includes(req.headers("orgin"))) {
-  //     return next(new Error("blocked by cros"));
-  //   } else {
-  //     res.setHeader("Access-Control-Allow-Origin", "*"); // قم بتعديل الأصل إلى الذي تستخدمه في الجزء الأمامي
-  //     res.setHeader("Access-Control-Allow-Headers", "*");
-  //     res.setHeader("Access-Control-Allow-Methods", "*");
-  //     res.setHeader("Access-Control-Allow-Private-Network", true);
-  //     return next();
-  //   }
-  // });
 
+  // Enable CORS for all requests
   app.use(cors());
+
   //Allow feaching Data
   //application
   if (process.env.MODE == "DEV") {
