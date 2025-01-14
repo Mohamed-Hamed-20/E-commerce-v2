@@ -1,4 +1,4 @@
-import connectDB from "../DB/connect.js";
+import { connectDB, closeDBConnection } from "../DB/connect.js";
 import cors from "cors";
 import userRouter from "./modules/user/user.routes.js";
 import categoryRouter from "./modules/category/category.routes.js";
@@ -12,30 +12,32 @@ import { GlobalErrorHandling } from "./utils/errorHandling.js";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import { hellowpage } from "./utils/welcomepage.js";
+import mongoose from "mongoose";
 
-export const bootstrap = (app, express) => {
-  connectDB();
+export const bootstrap = async (app, express) => {
+  await connectDB();
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
   // Enable CORS for all requests
   app.use(cors());
 
-  //Allow feaching Data
-  //application
-  if (process.env.MODE == "DEV") {
+  // Logging for DEV environment
+  if (process.env.NODE_ENV === "DEV") {
     app.use(morgan("dev"));
   }
-  // =====================================chk rate limiter==================================================
+
+  // Rate limiting to avoid excessive requests
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 300, // Limit each IP to 100 requests per `window`
-    standardHeaders: "draft-7",
+    limit: 300, // Limit each IP to 300 requests per `window`
+    standardHeaders: true,
     legacyHeaders: false,
   });
-  // Apply the rate limiting
   app.use(limiter);
-  // API
+
+  // API Routes
   app.use("/user", userRouter);
   app.use("/category", categoryRouter);
   app.use("/SubCategory", SubCategoryRouter);
@@ -45,15 +47,27 @@ export const bootstrap = (app, express) => {
   app.use("/card", CardRouter);
   app.use("/order", orderRouter);
 
-  //Globale error handling
+  // Global Error Handling
   app.use(GlobalErrorHandling);
 
+  // Welcome page route
   app.all("/", async (req, res) => {
     return res.send(await hellowpage());
   });
 
-  //API bad
-  app.all("*", (req, res) => res.send("invalid router link or method!"));
+  // Handle invalid routes
+  app.all("*", (req, res) => res.send("Invalid router link or method!"));
+
+  // Close DB connection
+  process.on("SIGINT", () => {
+    console.log("Closing DB connection...");
+    mongoose.connection.close(() => {
+      console.log("Connection to DB is closed");
+      process.exit(0);
+    });
+  });
+
+  // Start the server on specified port
   const port = parseInt(process.env.PORT) || 7102;
-  app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+  app.listen(port, () => console.log(`App listening on port ${port}!`));
 };

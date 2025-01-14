@@ -131,24 +131,29 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!accessToken || !refreshToken) {
     return next(new Error("invalid Token", { cause: 500 }));
   }
-  //safe token in DB and sure he done with info
-  const success = await storeRefreshToken(refreshToken, user._id, next);
 
-  if (!success) {
-    return next(new Error("Failed to store refresh token"), { cause: 500 });
-  }
-
-  //change user status to online
-  user.status = "online";
-  await user.save();
+  /// read this to here code take time near to 344ms
 
   //resopnse done with token
-  return res.status(200).json({
+  res.status(200).json({
     message: `welcome ${user.firstName} ${user.lastName}`,
     accessToken: accessToken,
     refreshToken: refreshToken,
     role: user.role,
   });
+
+  // Perform the remaining tasks asynchronously
+  try {
+    // Save the refresh token in DB asynchronously
+    await storeRefreshToken(refreshToken, user._id, next);
+
+    // Update the user's status to online
+    user.status = "online";
+    await user.save();
+  } catch (error) {
+    // You can log this error or handle it without affecting the user experience
+    console.error("Error in background tasks:", error);
+  }
 });
 
 export const sendForgetCode = asyncHandler(async (req, res, next) => {

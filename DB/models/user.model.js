@@ -32,7 +32,6 @@ const userSchema = new Schema(
       },
     ],
     phone: { type: String },
-    // dateOfBirth: { type: Date },
 
     profilePIC: {
       public_id: {
@@ -82,6 +81,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+userSchema.index({ email: 1 });
 userSchema.post("findOneAndDelete", async (doc) => {
   try {
     if (doc) {
