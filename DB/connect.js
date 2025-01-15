@@ -8,8 +8,15 @@ const connectDB = async () => {
       console.log("DB already connected");
       return;
     }
+
+    if (!process.env.DB_URL) {
+      throw new Error(
+        "DB_URL is not defined. Please check your environment variables."
+      );
+    }
+
     console.log(process.env.DB_URL);
-    
+
     const db = await mongoose.connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
