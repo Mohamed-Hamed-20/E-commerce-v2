@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let isConnected = false; // To track connection status
+let isConnected = false;
 
 const connectDB = async () => {
   try {
@@ -8,7 +8,8 @@ const connectDB = async () => {
       console.log("DB already connected");
       return;
     }
-
+    console.log(process.env.DB_URL);
+    
     const db = await mongoose.connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
