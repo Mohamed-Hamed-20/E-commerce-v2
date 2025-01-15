@@ -15,8 +15,6 @@ const connectDB = async () => {
       );
     }
 
-    console.log(process.env.DB_URL);
-
     const db = await mongoose.connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -41,8 +39,8 @@ const closeDBConnection = () => {
 };
 
 process.on("SIGINT", () => {
-  closeDBConnection(); // Close connection when the app is terminated (Ctrl+C)
-  process.exit(0); // Exit the app gracefully
+  closeDBConnection(); 
+  process.exit(0);
 });
 
 export { connectDB, closeDBConnection };

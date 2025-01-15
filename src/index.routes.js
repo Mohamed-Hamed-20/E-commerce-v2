@@ -15,7 +15,7 @@ import { hellowpage } from "./utils/welcomepage.js";
 import mongoose from "mongoose";
 
 export const bootstrap = async (app, express) => {
-  await connectDB();
+  connectDB();
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
