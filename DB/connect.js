@@ -1,5 +1,7 @@
+import { config } from "dotenv";
 import mongoose from "mongoose";
 
+config({ path: "./config/config.env" });
 let isConnected = false;
 
 const connectDB = async () => {
