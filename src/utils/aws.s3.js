@@ -74,15 +74,16 @@ const generateHexName = async () => {
 
 export const createImg = async ({ folder, file }) => {
   const { hexString } = await generateHexName();
-  const buffer = await sharp(file.buffer)
-    .resize({
-      width: 800,
-      height: 600,
-      fit: "cover",
-      position: "center", 
-    })
-    .png({ quality: 80 })
-    .toBuffer();
+const buffer = await sharp(file.buffer)
+  .resize({
+    width: 800,
+    height: 600,
+    fit: "inside",
+    withoutEnlargement: true,
+  })
+  .png({ quality: 80 })
+  .toBuffer();
+
 
 
   const imgName = `${folder}/${hexString}`;
