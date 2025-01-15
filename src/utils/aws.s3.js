@@ -22,10 +22,25 @@ export const s3Client = new S3Client({
 });
 
 export const allowedExtensions = {
-  Image: ["image/png", "image/jpeg", "image/gif", "image/jfif"],
+  Image: [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/gif",
+    "image/bmp",
+    "image/tiff",
+    "image/webp",
+    "image/svg+xml",
+    "image/x-icon",
+    "image/heif",
+    "image/heic",
+    "image/avif",
+    "image/jfif",
+  ],
   Files: ["application/pdf"],
   Videos: ["video/mp4"],
 };
+
 
 export const multerCloud = (allowedExtensionsArr) => {
   if (!allowedExtensionsArr) {
