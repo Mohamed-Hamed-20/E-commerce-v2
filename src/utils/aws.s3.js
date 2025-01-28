@@ -79,7 +79,6 @@ const buffer = await sharp(file.buffer)
     width: 800,
     height: 600,
     fit: "inside",
-    withoutEnlargement: true,
   })
   .png({ quality: 80 })
   .toBuffer();

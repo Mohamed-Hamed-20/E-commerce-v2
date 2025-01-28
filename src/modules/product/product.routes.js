@@ -1,11 +1,11 @@
 import { Router } from "express";
 import * as pc from "./controller/product.js";
 import { isAuth, roles } from "../../middleware/authentication.js";
-import { allowedExtensions } from "../../utils/allowedExtensions.js";
+import * as allowedExtensions from "../../utils/allowedExtensions.js";
 import { valid } from "../../middleware/validation.js";
 import * as validschema from "./controller/product.vaild.schema.js";
 import { multerCloud } from "../../utils/aws.s3.js";
-const   router = Router({ mergeParams: true });
+const router = Router({ mergeParams: true });
 
 router.post(
   "/createProduct",

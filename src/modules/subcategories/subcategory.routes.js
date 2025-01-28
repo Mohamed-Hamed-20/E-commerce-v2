@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as sc from "./controller/subcategory.js";
 import { multerCloudFunction } from "../../utils/multerCloud.js";
-import { allowedExtensions } from "../../utils/allowedExtensions.js";
+import * as allowedExtensions from "../../utils/allowedExtensions.js";
 import { isAuth, roles } from "../../middleware/authentication.js";
 import { valid } from "../../middleware/validation.js";
 import * as vc from "./controller/Subcategory.valid.schema.js";

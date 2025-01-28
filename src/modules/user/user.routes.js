@@ -4,7 +4,7 @@ import * as schema from "./controller/user.valid.schema.js";
 import { valid } from "../../middleware/validation.js";
 import { isAuth, roles } from "../../middleware/authentication.js";
 import { multerCloudFunction } from "../../utils/multerCloud.js";
-import { allowedExtensions } from "../../utils/allowedExtensions.js";
+import * as allowedExtensions from "../../utils/allowedExtensions.js";
 const router = Router();
 
 router.post("/register", valid(schema.singup), uc.register);

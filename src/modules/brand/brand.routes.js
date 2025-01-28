@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as Bc from "./controller/brand.js";
 import { multerCloudFunction } from "../../utils/multerCloud.js";
-import { allowedExtensions } from "../../utils/allowedExtensions.js";
+import * as allowedExtensions from "../../utils/allowedExtensions.js";
 import { isAuth, roles } from "../../middleware/authentication.js";
 import { valid } from "../../middleware/validation.js";
 import * as schema from "./controller/brand.valid.js";
