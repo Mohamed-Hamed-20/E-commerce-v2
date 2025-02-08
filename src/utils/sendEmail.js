@@ -11,6 +11,7 @@ export const sendEmail = async ({ to, subject, html, bcc } = {}) => {
       pass: process.env.password,
     },
   });
+
   const info = await transporter.sendMail({
     from: `"Route Acadamy👻" <${process.env.email}>`, // sender address
     to,
