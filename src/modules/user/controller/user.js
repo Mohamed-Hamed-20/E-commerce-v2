@@ -19,7 +19,6 @@ const nanoid = customAlphabet("1234567890", 7);
 
 export const register = asyncHandler(async (req, res, next) => {
   const { email, gender, password, userName, lastName, firstName } = req.body;
-  // console.log({ email, firstName, lastName });
   const chkemail = await usermodel.findOne({ email });
   if (chkemail) {
     return next(new Error("email is already exist", { cause: 400 }));
@@ -43,26 +42,23 @@ export const register = asyncHandler(async (req, res, next) => {
     activationCode,
   });
 
-  const link = `${req.protocol}://${req.headers.host}/user/confirmEmail/${activationCode}`;
-  const isSend = await sendEmail({
-    to: email,
-    subject: "confirm Email",
-    html: `${SignUpTemplet(link)}`,
-  });
-  console.log(isSend);
-  if (!isSend) {
-    return next(new Error("Something went wrong!", { cause: 500 }));
-  }
-
   //safe document
   const done1 = await result.save();
   if (!done1) {
     return next(new Error("Something went wrong!", { cause: 500 }));
   }
 
-  return res
+  res
     .status(201)
     .json({ message: "Done and chk you inbox to confirm ur email", result });
+
+  const link = `${req.protocol}://${req.headers.host}/user/confirmEmail/${activationCode}`;
+  const isSend = await sendEmail({
+    to: email,
+    subject: "confirm Email",
+    html: `${SignUpTemplet(link)}`,
+  });
+
 });
 
 export const confirmEmail = asyncHandler(async (req, res, next) => {
