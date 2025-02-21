@@ -20,7 +20,6 @@ export const createCategory = asyncHandler(async (req, res, next) => {
   if (!req.file) {
     return next(new Error("please upload a category image", { cause: 400 }));
   }
-  console.log(req.file.path);
 
   const findCategory = await categoryModel.findOne({ name });
   if (findCategory) {

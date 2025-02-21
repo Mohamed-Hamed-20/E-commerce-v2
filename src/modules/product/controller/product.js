@@ -206,7 +206,6 @@ export const addImgToproduct = asyncHandler(async (req, res, next) => {
 
 export const deleteImgfromProduct = asyncHandler(async (req, res, next) => {
   const { productId, ImgName } = req.body;
-  console.log({ productId, ImgName });
   const product = await productModel.findById(productId);
   if (!product) {
     return next(new Error("Product not found", { cause: 404 }));
@@ -216,7 +215,6 @@ export const deleteImgfromProduct = asyncHandler(async (req, res, next) => {
     return next(new Error("Invaild ImgName", { cause: 400 }));
   }
   const { response } = await deleteImg({ imgName: ImgName });
-  console.log(response);
   if (![200, 201, 202, 204, 203].includes(response.$metadata.httpStatusCode)) {
     return next(new Error("Error: Images not deleted successfully"));
   }
@@ -250,6 +248,7 @@ export const getProduct = asyncHandler(async (req, res, next) => {
     "Images",
     "categoryId",
   ];
+
   const optionsCategory = {
     path: "categoryId",
     select: "name slug Images createdBy",
@@ -285,7 +284,6 @@ export const getProduct = asyncHandler(async (req, res, next) => {
 
 export const searchByCategoryId = asyncHandler(async (req, res, next) => {
   const { categoryId, page, size } = req.params;
-  console.log(categoryId);
   const { limit, skip } = pagenation({ size, page });
 
   const products = await productModel

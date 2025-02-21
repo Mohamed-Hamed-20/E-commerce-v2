@@ -50,7 +50,7 @@ export const register = asyncHandler(async (req, res, next) => {
 
   res
     .status(201)
-    .json({ message: "Done and chk you inbox to confirm ur email", result });
+    .json({ message: "Registered successfully , Check your Email", result });
 
   const link = `${req.protocol}://${req.headers.host}/user/confirmEmail/${activationCode}`;
   const isSend = await sendEmail({
@@ -58,7 +58,6 @@ export const register = asyncHandler(async (req, res, next) => {
     subject: "confirm Email",
     html: `${SignUpTemplet(link)}`,
   });
-
 });
 
 export const confirmEmail = asyncHandler(async (req, res, next) => {
@@ -161,7 +160,6 @@ export const sendForgetCode = asyncHandler(async (req, res, next) => {
   }
   //generate forget code
   const forgetCode = nanoid();
-  console.log(forgetCode);
   user.forgetCode = forgetCode;
   await user.save();
   // send this code to him by email

@@ -13,7 +13,6 @@ const nanoid = customAlphabet(
 export const CreateSubCategory = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
   const { categoryId } = req.query;
-  console.log({ name, categoryId });
   //check and find CategoryId
   const Category = await categoryModel.findById({ _id: categoryId });
   if (!Category) {
@@ -40,7 +39,6 @@ export const CreateSubCategory = asyncHandler(async (req, res, next) => {
       use_filename: true,
     }
   );
-  console.log({ secure_url, public_id });
   const CreteSubcategory = {
     name,
     slug,

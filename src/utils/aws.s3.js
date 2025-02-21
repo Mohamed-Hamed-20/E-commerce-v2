@@ -41,7 +41,6 @@ export const allowedExtensions = {
   Videos: ["video/mp4"],
 };
 
-
 export const multerCloud = (allowedExtensionsArr) => {
   if (!allowedExtensionsArr) {
     allowedExtensionsArr = allowedExtensions.Image;
@@ -51,7 +50,6 @@ export const multerCloud = (allowedExtensionsArr) => {
 
   //================================== File Filter =============================
   const fileFilter = function (req, file, cb) {
-    console.log(file.mimetype);
     if (allowedExtensionsArr.includes(file.mimetype)) {
       return cb(null, true);
     }
@@ -74,16 +72,14 @@ const generateHexName = async () => {
 
 export const createImg = async ({ folder, file }) => {
   const { hexString } = await generateHexName();
-const buffer = await sharp(file.buffer)
-  .resize({
-    width: 800,
-    height: 600,
-    fit: "inside",
-  })
-  .png({ quality: 80 })
-  .toBuffer();
-
-
+  const buffer = await sharp(file.buffer)
+    .resize({
+      width: 800,
+      height: 600,
+      fit: "inside",
+    })
+    .png({ quality: 80 })
+    .toBuffer();
 
   const imgName = `${folder}/${hexString}`;
   const params = {

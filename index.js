@@ -8,5 +8,4 @@ dotenv.config({ path: "./config/config.env" });
 
 //hellow done
 bootstrap(app, express);
-
 export default app;

@@ -12,7 +12,6 @@ export const valid = (schema) => {
           abortEarly: false,
         });
         if (validationResult.error) {
-          // إضافة كل رسالة خطأ ككائن منفصل
           validationResult.error.details.forEach((errorDetail) => {
             Validation_error.push({
               message: errorDetail.message.replace(/\"/g, ""),

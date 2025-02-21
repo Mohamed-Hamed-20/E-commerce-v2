@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { usermodel } from "./models/user.model.js";
 
 let isConnected = false;
 
@@ -50,4 +51,24 @@ process.on("SIGINT", () => {
   process.exit(0);
 });
 
-export { connectDB, closeDBConnection };
+const deleteDB = async () => {
+  try {
+    // Ensure Mongoose is connected
+    if (mongoose.connection.readyState === 1) {
+      // Drop the current database
+      await mongoose.connection.dropDatabase();
+      console.log("Database dropped successfully.");
+    } else {
+      console.log("Mongoose is not connected.");
+    }
+  } catch (error) {
+    console.error("Error while dropping the database:", error);
+  }
+};
+const deleteUser = async (userId) => {
+  console.log({ userId });
+
+  await usermodel.findByIdAndDelete(userId);
+};
+
+export { connectDB, closeDBConnection, deleteDB, deleteUser };
