@@ -1,6 +1,6 @@
 import { usermodel } from "../../../../DB/models/user.model.js";
 import { asyncHandler } from "../../../utils/errorHandling.js";
-import bcrypt, { hashSync, compareSync } from "bcrypt";
+import bcrypt, { hashSync, compareSync } from "bcryptjs";
 import { sendEmail } from "../../../utils/sendEmail.js";
 import crypto from "crypto";
 import {

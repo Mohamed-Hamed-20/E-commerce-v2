@@ -68,6 +68,6 @@ export const bootstrap = async (app, express) => {
   });
 
   // Start the server on specified port
-  const port = parseInt(process.env.PORT) || 7102;
+  const port = parseInt(process.env.PORT) || 5000;
   app.listen(port, () => console.log(`App listening on port ${port}!`));
 };
