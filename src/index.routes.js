@@ -13,10 +13,13 @@ import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import { hellowpage } from "./utils/welcomepage.js";
 import mongoose from "mongoose";
+import redis from "./utils/redis.js";
 
 export const bootstrap = async (app, express) => {
   connectDB();
 
+  //redis
+  redis;
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
